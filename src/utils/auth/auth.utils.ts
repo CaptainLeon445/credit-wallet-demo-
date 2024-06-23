@@ -47,7 +47,7 @@ export default class AuthUtilities {
     const data: Record<string, any> = {
       accessToken,
       refreshToken,
-      ...user.dataValues,
+      ...user,
     };
 
     return data;

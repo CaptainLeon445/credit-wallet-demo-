@@ -55,7 +55,7 @@ class AuthUtilities {
         const data = {
             accessToken,
             refreshToken,
-            ...user.dataValues,
+            ...user,
         };
         return data;
     }
