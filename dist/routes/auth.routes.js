@@ -121,5 +121,5 @@ authRoutes.post("/register", authController.register.bind(authController));
  *         description: Some internal server error
  *
  */
-authRoutes.post("/register", authController.register.bind(authController));
+authRoutes.post("/login", authController.register.bind(authController));
 exports.default = authRoutes;
