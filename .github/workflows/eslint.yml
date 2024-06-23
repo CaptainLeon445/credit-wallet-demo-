@@ -2,8 +2,7 @@ name: File formatter
 
 on:
   push:
-    branches:
-      - ['main']
+    branches: [ "main" ]
 
 jobs:
   lint:
