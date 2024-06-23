@@ -1,6 +1,10 @@
 import db from "../../config/db.connection";
 
 export default class WalletUtils {
+  static async getWalletByUId(uid: number) {
+    const [wallet] = await db("wallets").where({ uid }).returning("*");
+    return wallet;
+  }
   static async getWalletById(id: number) {
     const [wallet] = await db("wallets").where({ id }).returning("*");
     return wallet;

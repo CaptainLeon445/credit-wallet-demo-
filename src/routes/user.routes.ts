@@ -6,7 +6,7 @@ import { AuthMiddleware } from "../middlewares/auth.middleware";
 const userController = container.resolve<UserController>("UserController");
 const authMiddleware = container.resolve<AuthMiddleware>("AuthMiddleware");
 
-const userRoutes = express.Router();
+const userRoute = express.Router();
 /**
  * @swagger
  * components:
@@ -14,7 +14,7 @@ const userRoutes = express.Router();
  *     default:
  */
 
-userRoutes.use(authMiddleware.authProtect);
+userRoute.use(authMiddleware.authProtect);
 
 /**
  * @swagger
@@ -36,7 +36,7 @@ userRoutes.use(authMiddleware.authProtect);
  *         description: Some internal server error
  *
  */
-userRoutes.get("/", userController.getUser.bind(userController));
+userRoute.get("/", userController.getUser.bind(userController));
 
 /**
  * @swagger
@@ -58,9 +58,9 @@ userRoutes.get("/", userController.getUser.bind(userController));
  *         description: Some internal server error
  *
  */
-userRoutes.patch(
+userRoute.patch(
   "/deactivate",
   userController.deactivateUser.bind(userController)
 );
 
-export default userRoutes;
+export default userRoute;

@@ -19,6 +19,7 @@ const global_utils_1 = require("./utils/global.utils");
 const express_1 = __importDefault(require("express"));
 const logger_1 = __importDefault(require("./logger"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
+const users_routes_1 = __importDefault(require("./routes/users.routes"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
@@ -86,7 +87,8 @@ app.get("/", (req, res) => {
 });
 app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerSpec, { explorer: false }));
 app.use("/v1/api/auth", auth_routes_1.default);
-app.use("/v1/api/users", user_routes_1.default);
+app.use("/v1/api/profile", user_routes_1.default);
+app.use("/v1/api/users", users_routes_1.default);
 app.use("/v1/api/wallets", wallet_routes_1.default);
 // Log successful API request middleware
 app.use((req, res, next) => {

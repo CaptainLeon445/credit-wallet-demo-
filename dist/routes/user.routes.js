@@ -7,14 +7,14 @@ const express_1 = __importDefault(require("express"));
 const container_global_1 = __importDefault(require("../containers/container.global"));
 const userController = container_global_1.default.resolve("UserController");
 const authMiddleware = container_global_1.default.resolve("AuthMiddleware");
-const userRoutes = express_1.default.Router();
+const userRoute = express_1.default.Router();
 /**
  * @swagger
  * components:
  *   schemas:
  *     default:
  */
-userRoutes.use(authMiddleware.authProtect);
+userRoute.use(authMiddleware.authProtect);
 /**
  * @swagger
  * tags:
@@ -35,7 +35,7 @@ userRoutes.use(authMiddleware.authProtect);
  *         description: Some internal server error
  *
  */
-userRoutes.get("/", userController.getUser.bind(userController));
+userRoute.get("/", userController.getUser.bind(userController));
 /**
  * @swagger
  * tags:
@@ -56,5 +56,5 @@ userRoutes.get("/", userController.getUser.bind(userController));
  *         description: Some internal server error
  *
  */
-userRoutes.patch("/deactivate", userController.deactivateUser.bind(userController));
-exports.default = userRoutes;
+userRoute.patch("/deactivate", userController.deactivateUser.bind(userController));
+exports.default = userRoute;

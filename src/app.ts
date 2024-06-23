@@ -16,7 +16,8 @@ import walletRoutes from "./routes/wallet.routes";
 import { GlobalUtilities } from "./utils/global.utils";
 import express, { NextFunction, Request, Response } from "express";
 import logger from "./logger";
-import userRoutes from "./routes/user.routes";
+import userRoute from "./routes/user.routes";
+import usersRoute from "./routes/users.routes";
 
 const app = express();
 app.use(cors());
@@ -104,7 +105,8 @@ app.use(
   swaggerUi.setup(swaggerSpec, { explorer: false })
 );
 app.use("/v1/api/auth", authRoutes);
-app.use("/v1/api/users", userRoutes);
+app.use("/v1/api/profile", userRoute);
+app.use("/v1/api/users", usersRoute);
 app.use("/v1/api/wallets", walletRoutes);
 
 // Log successful API request middleware

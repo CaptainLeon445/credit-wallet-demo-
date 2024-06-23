@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const global_utils_1 = require("../../utils/global.utils");
 const catchAsyncError_1 = require("../../utils/catchAsyncError");
+const wallet_utils_1 = __importDefault(require("../../utils/wallet/wallet.utils"));
 class WalletController {
     constructor(walletService) {
         this.walletService = walletService;
@@ -11,7 +15,15 @@ class WalletController {
                 await global_utils_1.GlobalUtilities.response(res, "Wallets returned successfully!", 201, data, data.length);
         });
         this.getWallet = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
-            const id = Number(req.params.id);
+            const user = req.user;
+            let id;
+            if (user.role === "superadmin")
+                id = Number(req.params.id);
+            else {
+                const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
+                id = wallet.id;
+            }
+            console.log(id);
             const data = await this.walletService.getWallet(id, next);
             if (data)
                 await global_utils_1.GlobalUtilities.response(res, "Wallet details returned successfully!", 200, data);
@@ -21,8 +33,10 @@ class WalletController {
             let id;
             if (user.role === "superadmin")
                 id = Number(req.params.id);
-            else
-                id = user.id;
+            else {
+                const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
+                id = wallet.id;
+            }
             req.body.userWalletId = id;
             const requestData = req.body;
             const data = await this.walletService.fundWallet(requestData, next);
@@ -34,8 +48,10 @@ class WalletController {
             let id;
             if (user.role === "superadmin")
                 id = Number(req.params.id);
-            else
-                id = user.id;
+            else {
+                const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
+                id = wallet.id;
+            }
             req.body.senderWalletId = id;
             const requestData = req.body;
             const data = await this.walletService.transferFunds(requestData, next);
@@ -47,8 +63,10 @@ class WalletController {
             let id;
             if (user.role === "superadmin")
                 id = Number(req.params.id);
-            else
-                id = user.id;
+            else {
+                const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
+                id = wallet.id;
+            }
             req.body.userWalletId = id;
             const requestData = req.body;
             const data = await this.walletService.withdrawFunds(requestData, next);
@@ -60,8 +78,10 @@ class WalletController {
             let id;
             if (user.role === "superadmin")
                 id = Number(req.params.id);
-            else
-                id = user.id;
+            else {
+                const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
+                id = wallet.id;
+            }
             const data = await this.walletService.deactivateWallet(id, next);
             if (data)
                 await global_utils_1.GlobalUtilities.response(res, "Wallet deactivated successfully!", 201, data);
