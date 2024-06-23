@@ -1,6 +1,6 @@
 import { NextFunction } from "express";
 import db from "../../config/db.connection";
-import { UserDTO } from "../../utils/dto/user.dto";
+import { LoginDTO, UserDTO } from "../../utils/dto/user.dto";
 import { AppError } from "../../middlewares/ErrorHandlers/AppError";
 import AuthUtilities from "../../utils/auth/auth.utils";
 import { WalletService } from "../wallet/wallet.service";
@@ -37,7 +37,7 @@ export default class AuthService {
     }
   }
 
-  public async login(userData: Record<string, any>, next: NextFunction) {
+  public async login(userData: LoginDTO, next: NextFunction) {
     const user = await UserUtils.getUserByUsername(userData.username);
     if (!user)
       return next(

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { UserDTO } from "../../utils/dto/user.dto";
+import { LoginDTO, UserDTO } from "../../utils/dto/user.dto";
 import { GlobalUtilities } from "../../utils/global.utils";
 import AuthService from "../../services/auth/auth.service";
 import { catchAsync } from "../../utils/catchAsyncError";
@@ -31,7 +31,7 @@ export default class AuthController {
    */
   public login = catchAsync(
     async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-      const loginData: any = req.body;
+      const loginData: LoginDTO = req.body;
       const user = await this.authService.login(loginData, next);
       if (user) {
         const data = await AuthUtilities.getLoginData(req, user);
