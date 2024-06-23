@@ -1,0 +1,83 @@
+import { Request, Response, NextFunction } from "express";
+import { GlobalUtilities } from "../../utils/global.utils";
+import { WalletService } from "../../services/wallet/wallet.service";
+import { FundDTO, TransferFundDTO } from "../../utils/dto/wallet.dto";
+import { catchAsync } from "../../utils/catchAsyncError";
+
+export default class WalletController {
+  constructor(private readonly walletService: WalletService) {}
+  public getWallets = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const data = await this.walletService.getWallets();
+      if (data)
+        await GlobalUtilities.response(
+          res,
+          "Wallets returned successfully!",
+          201,
+          data,
+          data.length
+        );
+    }
+  );
+  public getWallet = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const id: number = Number(req.params.id);
+      const data = await this.walletService.getWallet(id, next);
+      if (data)
+        await GlobalUtilities.response(
+          res,
+          "Wallet details returned successfully!",
+          200,
+          data
+        );
+    }
+  );
+  public fundWallet = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      req.body.userWalletId = Number(req.params.id);
+      const requestData: FundDTO = req.body;
+      const data = await this.walletService.fundWallet(requestData, next);
+      if (data)
+        await GlobalUtilities.response(
+          res,
+          "Wallet funded successfully!",
+          201,
+          data
+        );
+    }
+  );
+
+  public transferFunds = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      req.body.senderWalletId = Number(req.params.id);
+      const requestData: TransferFundDTO = req.body;
+      const data = await this.walletService.transferFunds(requestData, next);
+      if (data)
+        await GlobalUtilities.response(res, "Transfer successful!", 201, data);
+    }
+  );
+
+  public withdrawFunds = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      req.body.userWalletId = Number(req.params.id);
+      const requestData: FundDTO = req.body;
+      const data = await this.walletService.withdrawFunds(requestData, next);
+      if (data)
+        await GlobalUtilities.response(res, "Withdraw successful!", 201, data);
+    }
+  );
+
+  public deactivateWallet = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const id: number = Number(req.params.id);
+      const data = await this.walletService.deactivateWallet(id, next);
+      if (data)
+        await GlobalUtilities.response(
+          res,
+          "Wallet deactivated successfully!",
+          201,
+          data
+        );
+    }
+  );
+}
