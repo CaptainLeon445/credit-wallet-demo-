@@ -20,5 +20,12 @@ class WalletUtils {
             .returning("*");
         return updatedWallet;
     }
+    static async activateWallet(id) {
+        const [updatedWallet] = await (0, db_connection_1.default)("wallets")
+            .update({ active: true })
+            .where({ id })
+            .returning("*");
+        return updatedWallet;
+    }
 }
 exports.default = WalletUtils;

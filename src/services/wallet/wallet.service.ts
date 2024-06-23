@@ -35,6 +35,13 @@ export class WalletService {
     return data;
   }
 
+  public async activateWallet(id: number, next: NextFunction) {
+    const wallet = await WalletUtils.getWalletById(id);
+    if (!wallet) return next(new AppError("Wallet not found", 404));
+    const data = await WalletUtils.activateWallet(id);
+    return data;
+  }
+
   public async fundWallet(walletDTO: FundDTO, next: NextFunction) {
     const { userWalletId, amount } = walletDTO;
     const wallet = await WalletUtils.getWalletById(userWalletId);

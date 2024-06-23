@@ -125,7 +125,7 @@ walletRoutes.get("/:id", walletController.getWallet.bind(walletController));
  *     tags: [Wallet]
  *     responses:
  *       201:
- *         description: Account funded successfully.
+ *         description: Wallet deactivated successfully.
  *         content:
  *           application/json:
  *             schema:
@@ -137,6 +137,37 @@ walletRoutes.get("/:id", walletController.getWallet.bind(walletController));
 walletRoutes.patch(
   "/:id/deactivate",
   walletController.deactivateWallet.bind(walletController)
+);
+
+/**
+ * @swagger
+ * tags:
+ *   name: Wallet
+ *   description: The wallet API endpoints
+ * /v1/api/wallets/{id}/activate:
+ *   patch:
+ *     summary: Fund a wallet
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: number
+ *         description: The wallet id. e.g 1,2,3,4
+ *     tags: [Wallet]
+ *     responses:
+ *       201:
+ *         description: Wallet activated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/default'
+ *       500:
+ *         description: Some internal server error
+ *
+ */
+walletRoutes.patch(
+  "/:id/activate",
+  walletController.activateWallet.bind(walletController)
 );
 
 /**

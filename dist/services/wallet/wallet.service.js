@@ -34,6 +34,13 @@ class WalletService {
         const data = await wallet_utils_1.default.deactivateWallet(id);
         return data;
     }
+    async activateWallet(id, next) {
+        const wallet = await wallet_utils_1.default.getWalletById(id);
+        if (!wallet)
+            return next(new AppError_1.AppError("Wallet not found", 404));
+        const data = await wallet_utils_1.default.activateWallet(id);
+        return data;
+    }
     async fundWallet(walletDTO, next) {
         const { userWalletId, amount } = walletDTO;
         const wallet = await wallet_utils_1.default.getWalletById(userWalletId);

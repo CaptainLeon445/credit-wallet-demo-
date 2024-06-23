@@ -86,6 +86,19 @@ class WalletController {
             if (data)
                 await global_utils_1.GlobalUtilities.response(res, "Wallet deactivated successfully!", 201, data);
         });
+        this.activateWallet = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
+            const user = req.user;
+            let id;
+            if (user.role === "superadmin")
+                id = Number(req.params.id);
+            else {
+                const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
+                id = wallet.id;
+            }
+            const data = await this.walletService.activateWallet(id, next);
+            if (data)
+                await global_utils_1.GlobalUtilities.response(res, "Wallet activated successfully!", 201, data);
+        });
     }
 }
 exports.default = WalletController;

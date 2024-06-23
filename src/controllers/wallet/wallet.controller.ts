@@ -116,4 +116,24 @@ export default class WalletController {
         );
     }
   );
+
+  public activateWallet = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const user = req.user;
+      let id: number;
+      if (user.role === "superadmin") id = Number(req.params.id);
+      else {
+        const wallet = await WalletUtils.getWalletByUId(user.id);
+        id = wallet.id;
+      }
+      const data = await this.walletService.activateWallet(id, next);
+      if (data)
+        await GlobalUtilities.response(
+          res,
+          "Wallet activated successfully!",
+          201,
+          data
+        );
+    }
+  );
 }

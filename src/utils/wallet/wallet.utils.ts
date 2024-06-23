@@ -17,4 +17,12 @@ export default class WalletUtils {
       .returning("*");
     return updatedWallet;
   }
+
+  static async activateWallet(id: number) {
+    const [updatedWallet] = await db("wallets")
+      .update({ active: true })
+      .where({ id })
+      .returning("*");
+    return updatedWallet;
+  }
 }
