@@ -87,9 +87,11 @@ const authRoutes = express_1.default.Router();
  *             schema:
  *               $ref: '#/components/schemas/registerUser'
  *       400:
- *         description: Bad request. The provided password does not meet the required criteria.
- *       409:
- *         description: Conflict Error. A user with the provided email already exists.
+ *         description: Password must be 8 characters long with a number,special character, lowercase and uppercase letter.
+ *       409-1:
+ *         description: User with the email already exists
+ *       409-2:
+ *         description: SUser with the username already exists
  *       500:
  *         description: Some internal server error
  *
@@ -120,7 +122,7 @@ authRoutes.post("/register", auth_validators_1.validateRegister, authController.
  *       401:
  *         description: Username or Password is incorrect.
  *       403:
- *         description: Your account is not active. Kindly reactivate your account.
+ *         description: Your account is inactive. Kindly activate your account.
  *       404:
  *         description: No account associated with the username
  *       500:

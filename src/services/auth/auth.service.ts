@@ -49,7 +49,7 @@ export default class AuthService {
     if (!user.active)
       return next(
         new AppError(
-          `Your account is not active. Kindly reactivate your account.`,
+          `Your account is inactive. Kindly activate your account.`,
           403
         )
       );

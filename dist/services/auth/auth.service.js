@@ -39,7 +39,7 @@ class AuthService {
         if (!user)
             return next(new AppError_1.AppError(`No account associated with the username ${userData.username}`, 404));
         if (!user.active)
-            return next(new AppError_1.AppError(`Your account is not active. Kindly reactivate your account.`, 403));
+            return next(new AppError_1.AppError(`Your account is inactive. Kindly activate your account.`, 403));
         const comparePassword = await auth_utils_1.default.validateHash(userData.password, user.password);
         if (!comparePassword)
             return next(new AppError_1.AppError(`Username or Password is incorrect.`, 401));

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const global_utils_1 = require("../../utils/global.utils");
 const catchAsyncError_1 = require("../../utils/catchAsyncError");
+const AppError_1 = require("../../middlewares/ErrorHandlers/AppError");
 class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -12,6 +13,8 @@ class UserController {
         });
         this.getUser = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
+            if (!user.active)
+                return next(new AppError_1.AppError("User account inactive", 403));
             let id;
             if (user.role === "superadmin")
                 id = Number(req.params.id);
@@ -23,6 +26,8 @@ class UserController {
         });
         this.deactivateUser = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
+            if (!user.active)
+                return next(new AppError_1.AppError("User account inactive", 403));
             let id;
             if (user.role === "superadmin")
                 id = Number(req.params.id);

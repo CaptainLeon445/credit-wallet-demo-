@@ -26,11 +26,15 @@ userRoute.use(authMiddleware.authProtect);
  *     tags: [Profile]
  *     responses:
  *       200:
- *         description: User returned successfully.
+ *         description: User details returned successfully.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/default'
+ *       403:
+ *         description: User is inactive
+ *       404:
+ *         description: User profile not found
  *       500:
  *         description: Some internal server error
  *
@@ -52,6 +56,10 @@ userRoute.get("/", userController.getUser.bind(userController));
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/default'
+ *       403:
+ *         description: User is inactive
+ *       404:
+ *         description: User profile not found
  *       500:
  *         description: Some internal server error
  *

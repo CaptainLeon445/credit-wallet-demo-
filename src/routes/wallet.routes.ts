@@ -69,7 +69,7 @@ walletRoutes.use(authMiddleware.authProtect);
  *     tags: [Wallet]
  *     responses:
  *       200:
- *         description: Account funded successfully.
+ *         description: Wallets returned successfully.
  *         content:
  *           application/json:
  *             schema:
@@ -106,6 +106,10 @@ walletRoutes.get(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/details'
+ *       403:
+ *         description: User is inactive
+ *       404:
+ *         description: Wallet not found
  *       500:
  *         description: Some internal server error
  *
@@ -119,7 +123,7 @@ walletRoutes.get("/:id", walletController.getWallet.bind(walletController));
  *   description: The wallet API endpoints
  * /v1/api/wallets/{id}/deactivate:
  *   patch:
- *     summary: Fund a wallet
+ *     summary: Deactivate your wallet
  *     parameters:
  *       - in: path
  *         name: id
@@ -134,6 +138,10 @@ walletRoutes.get("/:id", walletController.getWallet.bind(walletController));
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/default'
+ *       403:
+ *         description: User is inactive
+ *       404:
+ *         description: Wallet not found
  *       500:
  *         description: Some internal server error
  *
@@ -150,7 +158,7 @@ walletRoutes.patch(
  *   description: The wallet API endpoints
  * /v1/api/wallets/{id}/activate:
  *   patch:
- *     summary: Fund a wallet
+ *     summary: Activate your wallet
  *     parameters:
  *       - in: path
  *         name: id
@@ -165,6 +173,10 @@ walletRoutes.patch(
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/default'
+ *       403:
+ *         description: User is inactive
+ *       404:
+ *         description: Wallet not found
  *       500:
  *         description: Some internal server error
  *
@@ -197,11 +209,17 @@ walletRoutes.patch(
  *             $ref: '#/components/schemas/fund'
  *     responses:
  *       201:
- *         description: Account funded successfully.
+ *         description: Wallet funded successfully.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/fund'
+ *       403-1:
+ *         description: User is inactive
+ *       403-2:
+ *         description: Wallet is inactive
+ *       404:
+ *         description: Wallet not found
  *       500:
  *         description: Some internal server error
  *
@@ -219,7 +237,7 @@ walletRoutes.post(
  *   description: The wallet API endpoints
  * /v1/api/wallets/{id}/transfer:
  *   post:
- *     summary: Transfer from a wallet
+ *     summary: Transfer from wallet
  *     parameters:
  *       - in: path
  *         name: id
@@ -235,11 +253,21 @@ walletRoutes.post(
  *             $ref: '#/components/schemas/transferFund'
  *     responses:
  *       201:
- *         description: Account funded successfully.
+ *         description: Transfer successful.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/transferFund'
+ *       403-1:
+ *         description: User is inactive
+ *       403-2:
+ *         description: Sender's wallet is inactive
+ *       403-3:
+ *         description: Receiver's wallet is inactive
+ *       404-4:
+ *         description: Sender's wallet not found
+ *       404-2:
+ *         description: Receiver's wallet not found
  *       500:
  *         description: Some internal server error
  *
@@ -273,11 +301,17 @@ walletRoutes.post(
  *             $ref: '#/components/schemas/fund'
  *     responses:
  *       201:
- *         description: Account funded successfully.
+ *         description: Withdrawal successful.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/fund'
+ *       403-1:
+ *         description: User is inactive
+ *       403-2:
+ *         description: Wallet is inactive
+ *       404:
+ *         description: Wallet not found
  *       500:
  *         description: Some internal server error
  *

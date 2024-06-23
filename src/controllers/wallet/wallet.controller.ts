@@ -4,6 +4,7 @@ import { WalletService } from "../../services/wallet/wallet.service";
 import { FundDTO, TransferFundDTO } from "../../utils/dto/wallet.dto";
 import { catchAsync } from "../../utils/catchAsyncError";
 import WalletUtils from "../../utils/wallet/wallet.utils";
+import { AppError } from "../../middlewares/ErrorHandlers/AppError";
 
 export default class WalletController {
   constructor(private readonly walletService: WalletService) {}
@@ -14,7 +15,7 @@ export default class WalletController {
         await GlobalUtilities.response(
           res,
           "Wallets returned successfully!",
-          201,
+          200,
           data,
           data.length
         );
@@ -23,13 +24,13 @@ export default class WalletController {
   public getWallet = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
+      if (!user.active) return next(new AppError("User account inactive", 403));
       let id: number;
       if (user.role === "superadmin") id = Number(req.params.id);
       else {
         const wallet = await WalletUtils.getWalletByUId(user.id);
         id = wallet.id;
       }
-      console.log(user);
       const data = await this.walletService.getWallet(id, next);
       if (data)
         await GlobalUtilities.response(
@@ -43,6 +44,7 @@ export default class WalletController {
   public fundWallet = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
+      if (!user.active) return next(new AppError("User account inactive", 403));
       let id: number;
       if (user.role === "superadmin") id = Number(req.params.id);
       else {
@@ -65,6 +67,7 @@ export default class WalletController {
   public transferFunds = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
+      if (!user.active) return next(new AppError("User account inactive", 403));
       let id: number;
       if (user.role === "superadmin") id = Number(req.params.id);
       else {
@@ -83,6 +86,7 @@ export default class WalletController {
   public withdrawFunds = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
+      if (!user.active) return next(new AppError("User account inactive", 403));
       let id: number;
       if (user.role === "superadmin") id = Number(req.params.id);
       else {
@@ -93,7 +97,12 @@ export default class WalletController {
       const requestData: FundDTO = req.body;
       const data = await this.walletService.withdrawFunds(requestData, next);
       if (data)
-        await GlobalUtilities.response(res, "Withdraw successful!", 201, data);
+        await GlobalUtilities.response(
+          res,
+          "Withdrawal successful!",
+          201,
+          data
+        );
     }
   );
 

@@ -38,7 +38,7 @@ export default class AuthController {
         await GlobalUtilities.response(
           res,
           "User logged in successfully.",
-          200,
+          201,
           data
         );
       }

@@ -47,7 +47,7 @@ class WalletService {
         if (!wallet)
             return next(new AppError_1.AppError("Wallet not found", 404));
         if (!wallet.active)
-            return next(new AppError_1.AppError("Your wallet is inactive", 400));
+            return next(new AppError_1.AppError("Wallet is inactive", 403));
         const [data] = await (0, db_connection_1.default)("wallets")
             .where({ id: userWalletId })
             .increment("balance", amount)
@@ -63,11 +63,11 @@ class WalletService {
             if (!receiver)
                 return next(new AppError_1.AppError("Receiver's wallet not found", 404));
             if (!receiver.active)
-                return next(new AppError_1.AppError("Receiver's wallet is inactive", 400));
+                return next(new AppError_1.AppError("Receiver's wallet is inactive", 403));
             if (!sender)
-                return next(new AppError_1.AppError("Your wallet is not found", 404));
+                return next(new AppError_1.AppError("Sender's wallet is not found", 404));
             if (!sender.active)
-                return next(new AppError_1.AppError("Your wallet is inactive", 400));
+                return next(new AppError_1.AppError("Sender's wallet is inactive", 403));
             const [userWallet] = await trx("wallets")
                 .where({ id: senderWalletId })
                 .decrement("balance", amount)
@@ -89,7 +89,7 @@ class WalletService {
         if (!wallet)
             return next(new AppError_1.AppError("Wallet not found", 404));
         if (!wallet.active)
-            return next(new AppError_1.AppError("Your wallet is inactive", 400));
+            return next(new AppError_1.AppError("Wallet is inactive", 403));
         const [data] = await (0, db_connection_1.default)("wallets")
             .where({ id: userWalletId })
             .decrement("balance", amount)

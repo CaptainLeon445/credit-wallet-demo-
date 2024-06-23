@@ -15,13 +15,13 @@ class UserService {
     async getUser(id, next) {
         const [user] = await user_utils_1.default.getUserById(id);
         if (!user)
-            return next(new AppError_1.AppError("User not found", 404));
+            return next(new AppError_1.AppError("User profile not found", 404));
         return user;
     }
     async deactivateUser(id, next) {
         const [user] = await user_utils_1.default.getUserById(id);
         if (!user)
-            return next(new AppError_1.AppError("User not found", 404));
+            return next(new AppError_1.AppError("User profile not found", 404));
         const data = await user_utils_1.default.deactivateUser(id);
         return data;
     }

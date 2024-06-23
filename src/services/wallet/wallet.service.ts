@@ -46,8 +46,7 @@ export class WalletService {
     const { userWalletId, amount } = walletDTO;
     const wallet = await WalletUtils.getWalletById(userWalletId);
     if (!wallet) return next(new AppError("Wallet not found", 404));
-    if (!wallet.active)
-      return next(new AppError("Your wallet is inactive", 400));
+    if (!wallet.active) return next(new AppError("Wallet is inactive", 403));
     const [data] = await db("wallets")
       .where({ id: userWalletId })
       .increment("balance", amount)
@@ -64,10 +63,11 @@ export class WalletService {
       if (!receiver)
         return next(new AppError("Receiver's wallet not found", 404));
       if (!receiver.active)
-        return next(new AppError("Receiver's wallet is inactive", 400));
-      if (!sender) return next(new AppError("Your wallet is not found", 404));
+        return next(new AppError("Receiver's wallet is inactive", 403));
+      if (!sender)
+        return next(new AppError("Sender's wallet is not found", 404));
       if (!sender.active)
-        return next(new AppError("Your wallet is inactive", 400));
+        return next(new AppError("Sender's wallet is inactive", 403));
       const [userWallet] = await trx("wallets")
         .where({ id: senderWalletId })
         .decrement("balance", amount)
@@ -87,8 +87,7 @@ export class WalletService {
     const { userWalletId, amount } = walletDTO;
     const wallet = await WalletUtils.getWalletById(userWalletId);
     if (!wallet) return next(new AppError("Wallet not found", 404));
-    if (!wallet.active)
-      return next(new AppError("Your wallet is inactive", 400));
+    if (!wallet.active) return next(new AppError("Wallet is inactive", 403));
     const [data] = await db("wallets")
       .where({ id: userWalletId })
       .decrement("balance", amount)

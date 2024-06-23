@@ -6,16 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const global_utils_1 = require("../../utils/global.utils");
 const catchAsyncError_1 = require("../../utils/catchAsyncError");
 const wallet_utils_1 = __importDefault(require("../../utils/wallet/wallet.utils"));
+const AppError_1 = require("../../middlewares/ErrorHandlers/AppError");
 class WalletController {
     constructor(walletService) {
         this.walletService = walletService;
         this.getWallets = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const data = await this.walletService.getWallets();
             if (data)
-                await global_utils_1.GlobalUtilities.response(res, "Wallets returned successfully!", 201, data, data.length);
+                await global_utils_1.GlobalUtilities.response(res, "Wallets returned successfully!", 200, data, data.length);
         });
         this.getWallet = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
+            if (!user.active)
+                return next(new AppError_1.AppError("User account inactive", 403));
             let id;
             if (user.role === "superadmin")
                 id = Number(req.params.id);
@@ -23,13 +26,14 @@ class WalletController {
                 const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
                 id = wallet.id;
             }
-            console.log(user);
             const data = await this.walletService.getWallet(id, next);
             if (data)
                 await global_utils_1.GlobalUtilities.response(res, "Wallet details returned successfully!", 200, data);
         });
         this.fundWallet = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
+            if (!user.active)
+                return next(new AppError_1.AppError("User account inactive", 403));
             let id;
             if (user.role === "superadmin")
                 id = Number(req.params.id);
@@ -45,6 +49,8 @@ class WalletController {
         });
         this.transferFunds = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
+            if (!user.active)
+                return next(new AppError_1.AppError("User account inactive", 403));
             let id;
             if (user.role === "superadmin")
                 id = Number(req.params.id);
@@ -60,6 +66,8 @@ class WalletController {
         });
         this.withdrawFunds = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
+            if (!user.active)
+                return next(new AppError_1.AppError("User account inactive", 403));
             let id;
             if (user.role === "superadmin")
                 id = Number(req.params.id);
@@ -71,7 +79,7 @@ class WalletController {
             const requestData = req.body;
             const data = await this.walletService.withdrawFunds(requestData, next);
             if (data)
-                await global_utils_1.GlobalUtilities.response(res, "Withdraw successful!", 201, data);
+                await global_utils_1.GlobalUtilities.response(res, "Withdrawal successful!", 201, data);
         });
         this.deactivateWallet = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;

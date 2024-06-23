@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { GlobalUtilities } from "../../utils/global.utils";
 import { catchAsync } from "../../utils/catchAsyncError";
 import { UserService } from "../../services/user/user.service";
+import { AppError } from "../../middlewares/ErrorHandlers/AppError";
 
 export default class UserController {
   constructor(private readonly userService: UserService) {}
@@ -23,6 +24,7 @@ export default class UserController {
   public getUser = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
+      if (!user.active) return next(new AppError("User account inactive", 403));
       let id: number;
       if (user.role === "superadmin") id = Number(req.params.id);
       else id = user.id;
@@ -40,6 +42,7 @@ export default class UserController {
   public deactivateUser = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
+      if (!user.active) return next(new AppError("User account inactive", 403));
       let id: number;
       if (user.role === "superadmin") id = Number(req.params.id);
       else id = user.id;

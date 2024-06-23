@@ -11,13 +11,13 @@ export class UserService {
 
   public async getUser(id: number, next: NextFunction) {
     const [user] = await UserUtils.getUserById(id);
-    if (!user) return next(new AppError("User not found", 404));
+    if (!user) return next(new AppError("User profile not found", 404));
     return user;
   }
 
   public async deactivateUser(id: number, next: NextFunction) {
     const [user] = await UserUtils.getUserById(id);
-    if (!user) return next(new AppError("User not found", 404));
+    if (!user) return next(new AppError("User profile not found", 404));
     const data = await UserUtils.deactivateUser(id);
     return data;
   }

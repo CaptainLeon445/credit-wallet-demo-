@@ -25,7 +25,7 @@ usersRoute.use(authMiddleware.authRestrictTo(["superadmin"]));
  *   description: The user API endpoints
  * /v1/api/users:
  *   get:
- *     summary: Get all the available users
+ *     summary: Get all the users
  *     tags: [User]
  *     responses:
  *       200:
@@ -47,7 +47,7 @@ usersRoute.get("/", userController.getUsers.bind(userController));
  *   description: The user API endpoints
  * /v1/api/users/{id}:
  *   post:
- *     summary: Get a user details
+ *     summary: Get a user profile
  *     parameters:
  *       - in: path
  *         name: id
@@ -63,6 +63,10 @@ usersRoute.get("/", userController.getUsers.bind(userController));
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/details'
+ *       403:
+ *         description: User is inactive
+ *       404:
+ *         description: User profile not found
  *       500:
  *         description: Some internal server error
  *
@@ -92,6 +96,10 @@ usersRoute.get("/:id", userController.getUser.bind(userController));
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/default'
+ *       403:
+ *         description: User is inactive
+ *       404:
+ *         description: User profile not found
  *       500:
  *         description: Some internal server error
  *
