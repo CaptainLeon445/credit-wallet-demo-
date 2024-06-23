@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const container_global_1 = __importDefault(require("../containers/container.global"));
+const wallet_validators_1 = require("../middlewares/validators/wallet.validators");
 const walletController = container_global_1.default.resolve("WalletController");
 const authMiddleware = container_global_1.default.resolve("AuthMiddleware");
 const walletRoutes = express_1.default.Router();
@@ -184,7 +185,7 @@ walletRoutes.patch("/:id/activate", walletController.activateWallet.bind(walletC
  *         description: Some internal server error
  *
  */
-walletRoutes.post("/:id/fund", walletController.fundWallet.bind(walletController));
+walletRoutes.post("/:id/fund", wallet_validators_1.validateFund, walletController.fundWallet.bind(walletController));
 /**
  * @swagger
  * tags:
@@ -217,7 +218,7 @@ walletRoutes.post("/:id/fund", walletController.fundWallet.bind(walletController
  *         description: Some internal server error
  *
  */
-walletRoutes.post("/:id/transfer", walletController.transferFunds.bind(walletController));
+walletRoutes.post("/:id/transfer", wallet_validators_1.validateTransferFund, walletController.transferFunds.bind(walletController));
 /**
  * @swagger
  * tags:
@@ -250,5 +251,5 @@ walletRoutes.post("/:id/transfer", walletController.transferFunds.bind(walletCon
  *         description: Some internal server error
  *
  */
-walletRoutes.post("/:id/withdraw", walletController.withdrawFunds.bind(walletController));
+walletRoutes.post("/:id/withdraw", wallet_validators_1.validateFund, walletController.withdrawFunds.bind(walletController));
 exports.default = walletRoutes;

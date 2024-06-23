@@ -23,7 +23,7 @@ class WalletController {
                 const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
                 id = wallet.id;
             }
-            console.log(id);
+            console.log(user);
             const data = await this.walletService.getWallet(id, next);
             if (data)
                 await global_utils_1.GlobalUtilities.response(res, "Wallet details returned successfully!", 200, data);

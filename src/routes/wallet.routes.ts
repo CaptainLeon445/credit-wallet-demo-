@@ -2,6 +2,10 @@ import express from "express";
 import container from "../containers/container.global";
 import WalletController from "../controllers/wallet/wallet.controller";
 import { AuthMiddleware } from "../middlewares/auth.middleware";
+import {
+  validateFund,
+  validateTransferFund,
+} from "../middlewares/validators/wallet.validators";
 
 const walletController =
   container.resolve<WalletController>("WalletController");
@@ -204,6 +208,7 @@ walletRoutes.patch(
  */
 walletRoutes.post(
   "/:id/fund",
+  validateFund,
   walletController.fundWallet.bind(walletController)
 );
 
@@ -241,6 +246,7 @@ walletRoutes.post(
  */
 walletRoutes.post(
   "/:id/transfer",
+  validateTransferFund,
   walletController.transferFunds.bind(walletController)
 );
 
@@ -278,6 +284,7 @@ walletRoutes.post(
  */
 walletRoutes.post(
   "/:id/withdraw",
+  validateFund,
   walletController.withdrawFunds.bind(walletController)
 );
 

@@ -1,6 +1,10 @@
 import express from "express";
 import AuthController from "../controllers/auth/auth.controller";
 import container from "../containers/container.global";
+import {
+  validateLogin,
+  validateRegister,
+} from "../middlewares/validators/auth.validators";
 
 const authController = container.resolve<AuthController>("AuthController");
 
@@ -21,6 +25,7 @@ const authRoutes = express.Router();
  *       required:
  *         - email
  *         - username
+ *         - role
  *         - password
  *       properties:
  *         email:
@@ -29,12 +34,16 @@ const authRoutes = express.Router();
  *         username:
  *           type: string
  *           description: Your username
+ *         role:
+ *           type: string
+ *           description: Your role
  *         password:
  *           type: string
  *           description: Your password
  *       example:
  *         email: johndoe@gmail.com
  *         username: John
+ *         role: user
  *         password: JohnDoe1#
  */
 
@@ -58,8 +67,6 @@ const authRoutes = express.Router();
  *         username: John
  *         password: JohnDoe1#
  */
-
-
 
 /**
  * @swagger
@@ -91,7 +98,11 @@ const authRoutes = express.Router();
  *         description: Some internal server error
  *
  */
-authRoutes.post("/register", authController.register.bind(authController));
+authRoutes.post(
+  "/register",
+  validateRegister,
+  authController.register.bind(authController)
+);
 
 /**
  * @swagger
@@ -125,7 +136,10 @@ authRoutes.post("/register", authController.register.bind(authController));
  *         description: Some internal server error
  *
  */
-authRoutes.post("/login", authController.login.bind(authController));
-
+authRoutes.post(
+  "/login",
+  validateLogin,
+  authController.login.bind(authController)
+);
 
 export default authRoutes;

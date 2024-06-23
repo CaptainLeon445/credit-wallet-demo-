@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const container_global_1 = __importDefault(require("../containers/container.global"));
+const auth_validators_1 = require("../middlewares/validators/auth.validators");
 const authController = container_global_1.default.resolve("AuthController");
 const authRoutes = express_1.default.Router();
 /**
@@ -22,6 +23,7 @@ const authRoutes = express_1.default.Router();
  *       required:
  *         - email
  *         - username
+ *         - role
  *         - password
  *       properties:
  *         email:
@@ -30,12 +32,16 @@ const authRoutes = express_1.default.Router();
  *         username:
  *           type: string
  *           description: Your username
+ *         role:
+ *           type: string
+ *           description: Your role
  *         password:
  *           type: string
  *           description: Your password
  *       example:
  *         email: johndoe@gmail.com
  *         username: John
+ *         role: user
  *         password: JohnDoe1#
  */
 /**
@@ -88,7 +94,7 @@ const authRoutes = express_1.default.Router();
  *         description: Some internal server error
  *
  */
-authRoutes.post("/register", authController.register.bind(authController));
+authRoutes.post("/register", auth_validators_1.validateRegister, authController.register.bind(authController));
 /**
  * @swagger
  * tags:
@@ -121,5 +127,5 @@ authRoutes.post("/register", authController.register.bind(authController));
  *         description: Some internal server error
  *
  */
-authRoutes.post("/login", authController.login.bind(authController));
+authRoutes.post("/login", auth_validators_1.validateLogin, authController.login.bind(authController));
 exports.default = authRoutes;

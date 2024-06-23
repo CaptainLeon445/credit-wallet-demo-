@@ -29,7 +29,7 @@ export default class WalletController {
         const wallet = await WalletUtils.getWalletByUId(user.id);
         id = wallet.id;
       }
-      console.log(id);
+      console.log(user);
       const data = await this.walletService.getWallet(id, next);
       if (data)
         await GlobalUtilities.response(
