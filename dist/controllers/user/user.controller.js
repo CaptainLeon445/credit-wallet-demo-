@@ -11,13 +11,23 @@ class UserController {
                 await global_utils_1.GlobalUtilities.response(res, "Users returned successfully", 200, data, data.length);
         });
         this.getUser = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
-            const id = Number(req.params.id);
+            const user = req.user;
+            let id;
+            if (user.role === "superadmin")
+                id = Number(req.params.id);
+            else
+                id = user.id;
             const data = await this.userService.getUser(id, next);
             if (data)
                 await global_utils_1.GlobalUtilities.response(res, "User details returned successfully!", 200, data);
         });
         this.deactivateUser = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
-            const id = Number(req.params.id);
+            const user = req.user;
+            let id;
+            if (user.role === "superadmin")
+                id = Number(req.params.id);
+            else
+                id = user.id;
             const data = await this.userService.deactivateUser(id, next);
             if (data)
                 await global_utils_1.GlobalUtilities.response(res, "User deactivated successfully!", 201, data);

@@ -70,7 +70,7 @@ walletRoutes.use(authMiddleware.authProtect);
  *         description: Some internal server error
  *
  */
-walletRoutes.get("/", walletController.getWallets.bind(walletController));
+walletRoutes.get("/", authMiddleware.authRestrictTo(["superadmin"]), walletController.getWallets.bind(walletController));
 /**
  * @swagger
  * tags:
@@ -85,7 +85,6 @@ walletRoutes.get("/", walletController.getWallets.bind(walletController));
  *         schema:
  *           type: number
  *         description: The wallet id. e.g 1,2,3,4
- *         required: true
  *     tags: [Wallet]
  *     responses:
  *       200:
@@ -113,7 +112,6 @@ walletRoutes.get("/:id", walletController.getWallet.bind(walletController));
  *         schema:
  *           type: number
  *         description: The wallet id. e.g 1,2,3,4
- *         required: true
  *     tags: [Wallet]
  *     responses:
  *       201:
@@ -141,7 +139,6 @@ walletRoutes.patch("/:id/deactivate", walletController.deactivateWallet.bind(wal
  *         schema:
  *           type: number
  *         description: The wallet id. e.g 1,2,3,4
- *         required: true
  *     tags: [Wallet]
  *     requestBody:
  *       required: true
@@ -175,7 +172,6 @@ walletRoutes.post("/:id/fund", walletController.fundWallet.bind(walletController
  *         schema:
  *           type: number
  *         description: The wallet id. e.g 1,2,3,4
- *         required: true
  *     tags: [Wallet]
  *     requestBody:
  *       required: true
@@ -209,7 +205,6 @@ walletRoutes.post("/:id/transfer", walletController.transferFunds.bind(walletCon
  *         schema:
  *           type: number
  *         description: The wallet id. e.g 1,2,3,4
- *         required: true
  *     tags: [Wallet]
  *     requestBody:
  *       required: true

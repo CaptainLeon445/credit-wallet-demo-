@@ -22,7 +22,10 @@ export default class UserController {
 
   public getUser = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      const id: number = Number(req.params.id);
+      const user = req.user;
+      let id: number;
+      if (user.role === "superadmin") id = Number(req.params.id);
+      else id = user.id;
       const data = await this.userService.getUser(id, next);
       if (data)
         await GlobalUtilities.response(
@@ -36,7 +39,10 @@ export default class UserController {
 
   public deactivateUser = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      const id: number = Number(req.params.id);
+      const user = req.user;
+      let id: number;
+      if (user.role === "superadmin") id = Number(req.params.id);
+      else id = user.id;
       const data = await this.userService.deactivateUser(id, next);
       if (data)
         await GlobalUtilities.response(

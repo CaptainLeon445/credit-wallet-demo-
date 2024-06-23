@@ -40,7 +40,6 @@ export default class AuthUtilities {
       req,
       user.id
     );
-
     delete user.password;
     delete user.id;
 

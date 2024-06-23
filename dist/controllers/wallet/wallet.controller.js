@@ -17,28 +17,51 @@ class WalletController {
                 await global_utils_1.GlobalUtilities.response(res, "Wallet details returned successfully!", 200, data);
         });
         this.fundWallet = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
-            req.body.userWalletId = Number(req.params.id);
+            const user = req.user;
+            let id;
+            if (user.role === "superadmin")
+                id = Number(req.params.id);
+            else
+                id = user.id;
+            req.body.userWalletId = id;
             const requestData = req.body;
             const data = await this.walletService.fundWallet(requestData, next);
             if (data)
                 await global_utils_1.GlobalUtilities.response(res, "Wallet funded successfully!", 201, data);
         });
         this.transferFunds = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
-            req.body.senderWalletId = Number(req.params.id);
+            const user = req.user;
+            let id;
+            if (user.role === "superadmin")
+                id = Number(req.params.id);
+            else
+                id = user.id;
+            req.body.senderWalletId = id;
             const requestData = req.body;
             const data = await this.walletService.transferFunds(requestData, next);
             if (data)
                 await global_utils_1.GlobalUtilities.response(res, "Transfer successful!", 201, data);
         });
         this.withdrawFunds = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
-            req.body.userWalletId = Number(req.params.id);
+            const user = req.user;
+            let id;
+            if (user.role === "superadmin")
+                id = Number(req.params.id);
+            else
+                id = user.id;
+            req.body.userWalletId = id;
             const requestData = req.body;
             const data = await this.walletService.withdrawFunds(requestData, next);
             if (data)
                 await global_utils_1.GlobalUtilities.response(res, "Withdraw successful!", 201, data);
         });
         this.deactivateWallet = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
-            const id = Number(req.params.id);
+            const user = req.user;
+            let id;
+            if (user.role === "superadmin")
+                id = Number(req.params.id);
+            else
+                id = user.id;
             const data = await this.walletService.deactivateWallet(id, next);
             if (data)
                 await global_utils_1.GlobalUtilities.response(res, "Wallet deactivated successfully!", 201, data);

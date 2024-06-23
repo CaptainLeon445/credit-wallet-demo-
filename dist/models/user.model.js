@@ -11,6 +11,10 @@ const userTable = async () => {
         table.string("username").notNullable().unique();
         table.string("email").notNullable().unique();
         table.string("password").notNullable();
+        table
+            .enum("role", ["user", "admin", "superadmin"])
+            .defaultTo("user")
+            .notNullable();
         table.boolean("active").defaultTo(true);
         table.timestamps(true, true);
     });

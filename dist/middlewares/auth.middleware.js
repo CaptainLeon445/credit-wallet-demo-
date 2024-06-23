@@ -15,48 +15,49 @@ class AuthMiddleware {
         };
         this.getAccessToken = async (req, next) => {
             const authHeader = req.headers.authorization?.split(" ");
-            const bearer = authHeader && authHeader[0];
-            if (bearer !== "Bearer")
+            if (authHeader && authHeader.length === 2) {
+                const [bearer, accessToken] = authHeader;
+                if (bearer !== "Bearer")
+                    return next(new AppError_1.AppError("You are not authorized", 401));
+                if (!accessToken)
+                    return next(new AppError_1.AppError("You are not authorized", 401));
+                return accessToken;
+            }
+            else
                 return next(new AppError_1.AppError("You are not authorized", 401));
-            const accessToken = authHeader && authHeader[1];
-            if (!accessToken)
-                return next(new AppError_1.AppError("You are not authorized", 401));
-            return accessToken;
         };
         this.getUserFromToken = async (id) => {
             return user_utils_1.default.getUserById(id);
         };
-    }
-    async authProtect(req, res, next) {
-        try {
-            const accessToken = await this.getAccessToken(req, next);
-            if (accessToken) {
+        this.authProtect = async (req, res, next) => {
+            try {
+                const accessToken = await this.getAccessToken(req, next);
+                if (!accessToken)
+                    return next(new AppError_1.AppError("You are not authorized", 401));
                 const decoded = await this.verifyAndDecodeToken(accessToken, process.env.JWT_SECRET_KEY);
                 const user = await this.getUserFromToken(decoded.id);
-                if (!user) {
+                if (!user)
                     return next(new AppError_1.AppError("You are not authorized", 401));
-                }
                 req.user = user;
                 next();
             }
-        }
-        catch (error) {
-            logger_1.default.error("Error", error.message);
-            return next(new AppError_1.AppError("You are not authorized", 401));
-        }
-    }
-    authRestrictTo(roles) {
-        return (req, res, next) => {
-            try {
-                if (!roles.includes(req.user.role)) {
-                    return next(new AppError_1.AppError("You do not have permission to perform this action.", 401));
+            catch (error) {
+                logger_1.default.error("Error", error);
+                return next(new AppError_1.AppError("You are not authorized", 401));
+            }
+        };
+        this.authRestrictTo = (roles) => {
+            return (req, res, next) => {
+                try {
+                    if (!roles.includes(req.user.role))
+                        return next(new AppError_1.AppError("You do not have permission to perform this action.", 401));
+                    next();
                 }
-                next();
-            }
-            catch (err) {
-                logger_1.default.error("error", err);
-                return next(new AppError_1.AppError(err.message, err.status));
-            }
+                catch (err) {
+                    logger_1.default.error("error", err);
+                    return next(new AppError_1.AppError(err.message, err.status));
+                }
+            };
         };
     }
 }

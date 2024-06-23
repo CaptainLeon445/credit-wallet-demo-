@@ -34,7 +34,11 @@ export default class WalletController {
   );
   public fundWallet = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      req.body.userWalletId = Number(req.params.id);
+      const user = req.user;
+      let id: number;
+      if (user.role === "superadmin") id = Number(req.params.id);
+      else id = user.id;
+      req.body.userWalletId = id;
       const requestData: FundDTO = req.body;
       const data = await this.walletService.fundWallet(requestData, next);
       if (data)
@@ -49,7 +53,11 @@ export default class WalletController {
 
   public transferFunds = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      req.body.senderWalletId = Number(req.params.id);
+      const user = req.user;
+      let id: number;
+      if (user.role === "superadmin") id = Number(req.params.id);
+      else id = user.id;
+      req.body.senderWalletId = id;
       const requestData: TransferFundDTO = req.body;
       const data = await this.walletService.transferFunds(requestData, next);
       if (data)
@@ -59,7 +67,11 @@ export default class WalletController {
 
   public withdrawFunds = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      req.body.userWalletId = Number(req.params.id);
+      const user = req.user;
+      let id: number;
+      if (user.role === "superadmin") id = Number(req.params.id);
+      else id = user.id;
+      req.body.userWalletId = id;
       const requestData: FundDTO = req.body;
       const data = await this.walletService.withdrawFunds(requestData, next);
       if (data)
@@ -69,7 +81,10 @@ export default class WalletController {
 
   public deactivateWallet = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      const id: number = Number(req.params.id);
+      const user = req.user;
+      let id: number;
+      if (user.role === "superadmin") id = Number(req.params.id);
+      else id = user.id;
       const data = await this.walletService.deactivateWallet(id, next);
       if (data)
         await GlobalUtilities.response(
