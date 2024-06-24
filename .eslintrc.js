@@ -27,6 +27,14 @@ module.exports = {
     react: {
       version: 'detect', // Automatically detect the react version
     },
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@", "./src"]
+        ],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   },
   rules: {
     // Customize your rules
