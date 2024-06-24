@@ -5,19 +5,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
+const logger_1 = __importDefault(require("./logger"));
+const Handler_1 = require("./middlewares/ErrorHandlers/Handler");
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const xss_1 = __importDefault(require("xss"));
 const helmet_1 = __importDefault(require("helmet"));
 const hpp_1 = __importDefault(require("hpp"));
 const compression_1 = __importDefault(require("compression"));
+const express_1 = __importDefault(require("express"));
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const wallet_routes_1 = __importDefault(require("./routes/wallet.routes"));
 const global_utils_1 = require("./utils/global.utils");
-const express_1 = __importDefault(require("express"));
-const logger_1 = __importDefault(require("./logger"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const users_routes_1 = __importDefault(require("./routes/users.routes"));
 const wallets_routes_1 = __importDefault(require("./routes/wallets.routes"));
@@ -38,11 +39,6 @@ app.use((0, compression_1.default)());
 app.disable('x-powered-by');
 // Logger middleware
 app.use((0, morgan_1.default)('dev'));
-// Custom middleware
-app.use((req, res, next) => {
-    console.log('Using credit wallet demo middlewares API. 💻');
-    next();
-});
 // Swagger configuration
 const swaggerOptions = {
     definition: {
@@ -108,5 +104,8 @@ app.all('*', (req, res) => {
         status: 'fail',
         message: `Can't find ${req.originalUrl} on the server`,
     });
+});
+app.use((err, req, res, next) => {
+    Handler_1.GlobalErrorHandler.handleError(err, req, res, next);
 });
 exports.default = app;

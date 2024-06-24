@@ -4,51 +4,65 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
-const server_1 = __importDefault(require("../../server"));
+const testserver_1 = __importDefault(require("../../testserver"));
+const logger_1 = __importDefault(require("../../logger"));
+const truncateTable_1 = require("../../utils/truncateTable");
+const server = testserver_1.default.listen(4009, async () => {
+    try {
+        console.info(`Wallets test cases starting 🧪🧪🧪`);
+    }
+    catch (error) {
+        logger_1.default.error(error.message);
+    }
+});
 describe('Users wallets test cases', () => {
     let id;
     let token;
     beforeAll(async () => {
-        await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
+        await (0, supertest_1.default)(server).post('/v1/api/auth/register').send({
             username: 'walletuser',
             email: 'walletuser@mail.io',
             role: 'superadmin',
             password: 'Password123#',
         });
-        const user0 = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
+        const user = await (0, supertest_1.default)(server).post('/v1/api/auth/login').send({
+            username: 'walletuser',
+            password: 'Password123#',
+        });
+        await (0, supertest_1.default)(server).post('/v1/api/auth/register').send({
             username: 'walletusertst',
             email: 'walletusertst@mail.io',
             role: 'user',
             password: 'Password123#',
         });
-        const user = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/login').send({
-            username: 'walletuser',
-            password: 'Password123#',
-        });
-        token = user.body.accessToken;
-        const wallet = await (0, supertest_1.default)(server_1.default)
-            .set('Authorization', `Bearer ${token}`)
-            .get('/v1/api/wallets');
-        id = wallet.body[0].id;
+        token = user.body.data['accessToken'];
+        const wallet = await (0, supertest_1.default)(server)
+            .get('/v1/api/wallets')
+            .set('Authorization', `Bearer ${token}`);
+        id = wallet.body.data[0]["id"];
+    });
+    afterAll(async () => {
+        await (0, truncateTable_1.truncateAllTables)();
+        server.close();
     });
     it('should get users wallet', async () => {
-        const res = await (0, supertest_1.default)(server_1.default)
-            .set('Authorization', `Bearer ${token}`)
-            .get('/v1/api/wallets');
+        const res = await (0, supertest_1.default)(server)
+            .get('/v1/api/wallets')
+            .set('Authorization', `Bearer ${token}`);
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('status', 'success');
     });
     it('should deactivate user wallet', async () => {
-        const res = await (0, supertest_1.default)(server_1.default)
-            .set('Authorization', `Bearer ${token}`)
-            .patch(`/v1/api/wallets/${id}/deactivate`);
+        const res = await (0, supertest_1.default)(server)
+            .patch(`/v1/api/wallets/${id}/deactivate`)
+            .set('Authorization', `Bearer ${token}`);
         expect(res.statusCode).toEqual(201);
         expect(res.body).toHaveProperty('status', 'success');
     });
     it('should activate user wallet', async () => {
-        const res = await (0, supertest_1.default)(server_1.default)
-            .set('Authorization', `Bearer ${token}`)
-            .patch(`/v1/api/wallets/${id}/activate `);
+        const res = await (0, supertest_1.default)(server)
+            .patch(`/v1/api/wallets/${id}/activate `)
+            .set('Authorization', `Bearer ${token}`);
         expect(res.statusCode).toEqual(201);
         expect(res.body).toHaveProperty('status', 'success');
     });

@@ -51,7 +51,6 @@ class AuthUtilities {
         const accessToken = await AuthUtilities.getAuthToken(user.id);
         const refreshToken = await AuthUtilities.getRefreshAuthToken(user.id);
         delete user.password;
-        delete user.id;
         const data = {
             accessToken,
             refreshToken,

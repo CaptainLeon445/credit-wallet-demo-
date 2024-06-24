@@ -1,21 +1,22 @@
 import dotenv from 'dotenv';
 dotenv.config();
-
+import { NextFunction, Request, Response } from 'express';
+import { BASE_10 } from './constants/values.constant';
+import logger from './logger';
+import { GlobalErrorHandler } from './middlewares/ErrorHandlers/Handler';
 import morgan from 'morgan';
 import cors from 'cors';
 import xss from 'xss';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import compression from 'compression';
-
+import express from 'express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
 import authRoutes from './routes/auth.routes';
 import walletRoutes from './routes/wallet.routes';
 import { GlobalUtilities } from './utils/global.utils';
-import express, { NextFunction, Request, Response } from 'express';
-import logger from './logger';
 import userRoute from './routes/user.routes';
 import usersRoute from './routes/users.routes';
 import walletsRoutes from './routes/wallets.routes';
@@ -43,12 +44,6 @@ app.disable('x-powered-by');
 
 // Logger middleware
 app.use(morgan('dev'));
-
-// Custom middleware
-app.use((req: Request, res: Response, next: NextFunction) => {
-  console.log('Using credit wallet demo middlewares API. 💻');
-  next();
-});
 
 // Swagger configuration
 const swaggerOptions = {
@@ -128,6 +123,10 @@ app.all('*', (req: Request, res: Response) => {
     status: 'fail',
     message: `Can't find ${req.originalUrl} on the server`,
   });
+});
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  GlobalErrorHandler.handleError(err, req, res, next);
 });
 
 export default app;

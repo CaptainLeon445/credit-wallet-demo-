@@ -40,7 +40,6 @@ export default class AuthUtilities {
       user.id
     );
     delete user.password;
-    delete user.id;
 
     const data: Record<string, any> = {
       accessToken,

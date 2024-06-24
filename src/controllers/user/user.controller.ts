@@ -22,10 +22,13 @@ export default class UserController {
   public getUser = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
-      if (!user.active) return next(new AppError('User account inactive', 403));
       let id: number;
       if (user.role === 'superadmin') id = Number(req.params.id);
-      else id = user.id;
+      else {
+        if (!user.active)
+          return next(new AppError('User account inactive', 403));
+        id = user.id;
+      }
       const data = await this.userService.getUser(id, next);
       if (data)
         await GlobalUtilities.response(
@@ -40,10 +43,10 @@ export default class UserController {
   public deactivateUser = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
-      if (!user.active) return next(new AppError('User account inactive', 403));
       let id: number;
       if (user.role === 'superadmin') id = Number(req.params.id);
       else id = user.id;
+
       const data = await this.userService.deactivateUser(id, next);
       if (data)
         await GlobalUtilities.response(

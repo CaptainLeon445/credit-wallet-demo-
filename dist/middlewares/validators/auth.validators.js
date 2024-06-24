@@ -16,9 +16,9 @@ const validateRegister = (req, res, next) => {
         }),
         username: joi_1.default.string().required().messages({
             'string.base': 'Your username must be a string',
-            'any.required': 'Please enter your first name',
+            'any.required': 'Please enter your username',
         }),
-        role: joi_1.default.string().valid('admin', 'user', 'superadmin').required(),
+        role: joi_1.default.string().valid('admin', 'user', 'superadmin').optional(),
         password: joi_1.default.string().required().messages({
             'string.base': 'Your password must be a string',
             'any.required': 'Please enter your password',

@@ -13,15 +13,17 @@ class UserService {
         return users;
     }
     async getUser(id, next) {
-        const [user] = await user_utils_1.default.getUserById(id);
+        const user = await user_utils_1.default.getUserById(id);
         if (!user)
             return next(new AppError_1.AppError('User profile not found', 404));
         return user;
     }
     async deactivateUser(id, next) {
-        const [user] = await user_utils_1.default.getUserById(id);
+        const user = await user_utils_1.default.getUserById(id);
         if (!user)
             return next(new AppError_1.AppError('User profile not found', 404));
+        if (!user.active)
+            return next(new AppError_1.AppError('User account inactive', 403));
         const data = await user_utils_1.default.deactivateUser(id);
         return data;
     }

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "concurrently \"npx tsc --watch\" \"npx nodemon dist/server.js\"",
-    "test": "jest",
+    "test": "jest --runInBand",
     "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{js,ts,tsx}\" --fix"
   },

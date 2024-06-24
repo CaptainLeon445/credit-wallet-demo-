@@ -17,12 +17,12 @@ class WalletController {
         });
         this.getWallet = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
-            if (!user.active)
-                return next(new AppError_1.AppError('User account inactive', 403));
             let id;
             if (user.role === 'superadmin')
                 id = Number(req.params.id);
             else {
+                if (!user.active)
+                    return next(new AppError_1.AppError('User account inactive', 403));
                 const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
                 id = wallet.id;
             }
@@ -32,12 +32,12 @@ class WalletController {
         });
         this.fundWallet = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
-            if (!user.active)
-                return next(new AppError_1.AppError('User account inactive', 403));
             let id;
             if (user.role === 'superadmin')
                 id = Number(req.params.id);
             else {
+                if (!user.active)
+                    return next(new AppError_1.AppError('User account inactive', 403));
                 const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
                 id = wallet.id;
             }
@@ -49,12 +49,12 @@ class WalletController {
         });
         this.transferFunds = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
-            if (!user.active)
-                return next(new AppError_1.AppError('User account inactive', 403));
             let id;
             if (user.role === 'superadmin')
                 id = Number(req.params.id);
             else {
+                if (!user.active)
+                    return next(new AppError_1.AppError('User account inactive', 403));
                 const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
                 id = wallet.id;
             }
@@ -66,12 +66,12 @@ class WalletController {
         });
         this.withdrawFunds = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
-            if (!user.active)
-                return next(new AppError_1.AppError('User account inactive', 403));
             let id;
             if (user.role === 'superadmin')
                 id = Number(req.params.id);
             else {
+                if (!user.active)
+                    return next(new AppError_1.AppError('User account inactive', 403));
                 const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
                 id = wallet.id;
             }
@@ -87,6 +87,8 @@ class WalletController {
             if (user.role === 'superadmin')
                 id = Number(req.params.id);
             else {
+                if (!user.active)
+                    return next(new AppError_1.AppError('User account inactive', 403));
                 const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
                 id = wallet.id;
             }

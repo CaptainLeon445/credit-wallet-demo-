@@ -8,7 +8,7 @@ class GlobalErrorHandler {
         const error = err;
         error.statusCode = error.statusCode || 500;
         error.message =
-            'Internal server error! Please try again later' || error.message;
+            error.message || 'Internal server error! Please try again later';
         errorHandler_utilities_1.ErrorHandler.devErrorHandler(error, res);
     }
 }

@@ -1,5 +1,15 @@
 import request from 'supertest';
-import server from '../../server';
+import app from '../../testserver';
+import logger from '../../logger';
+import { truncateAllTables } from '../../utils/truncateTable';
+
+const server = app.listen(4009, async () => {
+  try {
+    console.info(`Wallets test cases starting 🧪🧪🧪`);
+  } catch (error: any) {
+    logger.error(error.message);
+  }
+});
 
 describe('Users wallets test cases', () => {
   let id: number;
@@ -11,43 +21,49 @@ describe('Users wallets test cases', () => {
       role: 'superadmin',
       password: 'Password123#',
     });
-    const user0 = await request(server).post('/v1/api/auth/register').send({
+    const user = await request(server).post('/v1/api/auth/login').send({
+      username: 'walletuser',
+      password: 'Password123#',
+    });
+    
+    await request(server).post('/v1/api/auth/register').send({
       username: 'walletusertst',
       email: 'walletusertst@mail.io',
       role: 'user',
       password: 'Password123#',
     });
-    const user = await request(server).post('/v1/api/auth/login').send({
-      username: 'walletuser',
-      password: 'Password123#',
-    });
+   
 
-    token = user.body.accessToken;
+    token = user.body.data['accessToken'];
     const wallet = await request(server)
-      .set('Authorization', `Bearer ${token}`)
-      .get('/v1/api/wallets');
-    id = wallet.body[0].id;
+      .get('/v1/api/wallets')
+      .set('Authorization', `Bearer ${token}`);
+    id = wallet.body.data[0]["id"];
+  });
+  afterAll(async () => {
+    await truncateAllTables();
+    server.close();
   });
   it('should get users wallet', async () => {
     const res = await request(server)
-      .set('Authorization', `Bearer ${token}`)
-      .get('/v1/api/wallets');
+      .get('/v1/api/wallets')
+      .set('Authorization', `Bearer ${token}`);
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty('status', 'success');
   });
 
   it('should deactivate user wallet', async () => {
     const res = await request(server)
-      .set('Authorization', `Bearer ${token}`)
-      .patch(`/v1/api/wallets/${id}/deactivate`);
+      .patch(`/v1/api/wallets/${id}/deactivate`)
+      .set('Authorization', `Bearer ${token}`);
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('status', 'success');
   });
 
   it('should activate user wallet', async () => {
     const res = await request(server)
-      .set('Authorization', `Bearer ${token}`)
-      .patch(`/v1/api/wallets/${id}/activate `);
+      .patch(`/v1/api/wallets/${id}/activate `)
+      .set('Authorization', `Bearer ${token}`);
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('status', 'success');
   });

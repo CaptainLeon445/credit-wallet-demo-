@@ -1,5 +1,15 @@
 import request from 'supertest';
-import server from '../../server';
+import app from '../../testserver';
+import logger from '../../logger';
+import { truncateAllTables } from '../../utils/truncateTable';
+
+const server = app.listen(4003, async () => {
+  try {
+    console.info(`Wallet test cases starting 🧪🧪🧪`);
+  } catch (error: any) {
+    logger.error(error.message);
+  }
+});
 
 describe('Wallet Endpoints', () => {
   let token: string;
@@ -7,36 +17,41 @@ describe('Wallet Endpoints', () => {
     await request(server).post('/v1/api/auth/register').send({
       username: 'walletuser',
       email: 'walletuser@mail.io',
-      password: 'password113',
+      role: 'user',
+      password: 'Password113#',
     });
     const user = await request(server).post('/v1/api/auth/login').send({
       username: 'walletuser',
-      password: 'password113',
+      password: 'Password113#',
     });
+    token = user.body.data['accessToken'];
+  });
 
-    token = user.body.accessToken;
+  afterAll(async () => {
+    await truncateAllTables();
+    server.close();
   });
 
   it('should get your wallet', async () => {
     const res = await request(server)
-      .set('Authorization', `Bearer ${token}`)
-      .get(`/v1/api/wallet`);
+      .get(`/v1/api/wallet`)
+      .set('Authorization', `Bearer ${token}`);
     expect(res.statusCode).toEqual(200);
     expect(res.body).toHaveProperty('status', 'success');
   });
 
   it('should deactivate your wallet', async () => {
     const res = await request(server)
-      .set('Authorization', `Bearer ${token}`)
-      .patch(`/v1/api/wallet/deactivate`);
+      .patch(`/v1/api/wallet/deactivate`)
+      .set('Authorization', `Bearer ${token}`);
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('status', 'success');
   });
 
   it('should activate your wallet', async () => {
     const res = await request(server)
-      .set('Authorization', `Bearer ${token}`)
-      .patch(`/v1/api/wallet/activate `);
+      .patch(`/v1/api/wallet/activate `)
+      .set('Authorization', `Bearer ${token}`);
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('status', 'success');
   });

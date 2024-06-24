@@ -27,7 +27,6 @@ class AuthService {
             const [data] = await (0, db_connection_1.default)('users').insert(userDTO).returning('*');
             await this.walletService.createWallet({ uid: data.id }, next);
             delete data.password;
-            delete data.id;
             return data;
         }
         catch (error) {

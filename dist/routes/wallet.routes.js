@@ -71,7 +71,7 @@ walletRoutes.use(authMiddleware.authProtect);
  *         description: Some internal server error
  *
  */
-walletRoutes.get('/', authMiddleware.authRestrictTo(['superadmin']), walletController.getWallets.bind(walletController));
+walletRoutes.get('/', walletController.getWallets.bind(walletController));
 /**
  * @swagger
  * tags:

@@ -80,7 +80,6 @@ walletRoutes.use(authMiddleware.authProtect);
  */
 walletRoutes.get(
   '/',
-  authMiddleware.authRestrictTo(['superadmin']),
   walletController.getWallets.bind(walletController)
 );
 
