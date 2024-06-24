@@ -8,6 +8,6 @@ const walletTable = async () => {
     table.boolean('active').defaultTo(true);
     table.timestamps(true, true);
   });
-};
+}; 
 
 export { walletTable };
