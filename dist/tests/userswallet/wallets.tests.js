@@ -25,8 +25,11 @@ describe('Users wallets test cases', () => {
             username: 'walletuser',
             password: 'Password123#',
         });
-        id = user0.body.id;
-        token = user.body.accessToke;
+        token = user.body.accessToken;
+        const wallet = await (0, supertest_1.default)(server_1.default)
+            .set('Authorization', `Bearer ${token}`)
+            .get('/v1/api/wallets');
+        id = wallet.body[0].id;
     });
     it('should get users wallet', async () => {
         const res = await (0, supertest_1.default)(server_1.default)

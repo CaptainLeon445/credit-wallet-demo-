@@ -14,6 +14,11 @@ describe('Transfer funds through wallets test cases', () => {
             email: 'walletuser@mail.io',
             password: 'password113',
         });
+        const wallet = await (0, supertest_1.default)(server_1.default).post(`/v1/api/wallets/${res.id}`).send({
+            username: 'walletuser',
+            email: 'walletuser@mail.io',
+            password: 'password113',
+        });
         const user = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/login').send({
             username: 'walletuser',
             password: 'password113',
@@ -22,12 +27,6 @@ describe('Transfer funds through wallets test cases', () => {
         token = user.body.accessToke;
     });
     it('should transfer fund to another user', async () => {
-        const user = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
-            username: 'mrchris2',
-            email: 'mrchris2@mail.uk',
-            password: 'password123',
-        });
-        const toUid = user.body.id;
         await (0, supertest_1.default)(server_1.default).post(`/v1/api/wallets/${wid}/fund`).send({
             id,
             amount: 100,
@@ -40,12 +39,6 @@ describe('Transfer funds through wallets test cases', () => {
         expect(res.body).toHaveProperty('balance', 50);
     });
     it('should transfer fund to another user from inactive account', async () => {
-        const user = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
-            username: 'mrchris22',
-            email: 'mrchris22@mail.uk',
-            password: 'password123',
-        });
-        const toUid = user.body.id;
         await (0, supertest_1.default)(server_1.default).post(`/v1/api/wallets/${wid}/fund`).send({
             id: aid,
             amount: 100,
@@ -68,12 +61,6 @@ describe('Transfer funds through wallets test cases', () => {
         expect(res.body).toHaveProperty('status', "fail");
     });
     it('should transfer fund to inactive wallet', async () => {
-        const user = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
-            username: 'mrchris222',
-            email: 'mrchris222@mail.uk',
-            password: 'password123',
-        });
-        const toUid = user.body.id;
         await (0, supertest_1.default)(server_1.default).post(`/v1/api/wallets/${wid}/fund`).send({
             id: aid,
             amount: 100,
@@ -88,12 +75,6 @@ describe('Transfer funds through wallets test cases', () => {
         expect(res.body).toHaveProperty('status', "fail");
     });
     it('should transfer fund from inactive wallet', async () => {
-        const user = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
-            username: 'mrchris2222',
-            email: 'mrchris2222@mail.uk',
-            password: 'password123',
-        });
-        const toUid = user.body.id;
         await (0, supertest_1.default)(server_1.default).post('/v1/api/wallets/fund').send({
             id: aid,
             amount: 100,
