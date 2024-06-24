@@ -1,5 +1,5 @@
-import { NextFunction } from "express";
-import { UserDTO, LoginDTO } from "../dto/user.dto";
+import { NextFunction } from 'express';
+import { UserDTO, LoginDTO } from '../dto/user.dto';
 
 export default interface AuthInterface {
   createUser(data: UserDTO, next: NextFunction): Promise<any>;

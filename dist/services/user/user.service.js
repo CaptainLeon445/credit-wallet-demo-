@@ -9,19 +9,19 @@ const AppError_1 = require("../../middlewares/ErrorHandlers/AppError");
 const user_utils_1 = __importDefault(require("../../utils/user/user.utils"));
 class UserService {
     async getUsers() {
-        const users = await (0, db_connection_1.default)("users").returning("*");
+        const users = await (0, db_connection_1.default)('users').returning('*');
         return users;
     }
     async getUser(id, next) {
         const [user] = await user_utils_1.default.getUserById(id);
         if (!user)
-            return next(new AppError_1.AppError("User profile not found", 404));
+            return next(new AppError_1.AppError('User profile not found', 404));
         return user;
     }
     async deactivateUser(id, next) {
         const [user] = await user_utils_1.default.getUserById(id);
         if (!user)
-            return next(new AppError_1.AppError("User profile not found", 404));
+            return next(new AppError_1.AppError('User profile not found', 404));
         const data = await user_utils_1.default.deactivateUser(id);
         return data;
     }

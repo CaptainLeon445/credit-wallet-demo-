@@ -1,10 +1,10 @@
-import express from "express";
-import container from "../containers/container.global";
-import UserController from "../controllers/user/user.controller";
-import { AuthMiddleware } from "../middlewares/auth.middleware";
+import express from 'express';
+import container from '../containers/container.global';
+import UserController from '../controllers/user/user.controller';
+import { AuthMiddleware } from '../middlewares/auth.middleware';
 
-const userController = container.resolve<UserController>("UserController");
-const authMiddleware = container.resolve<AuthMiddleware>("AuthMiddleware");
+const userController = container.resolve<UserController>('UserController');
+const authMiddleware = container.resolve<AuthMiddleware>('AuthMiddleware');
 
 const usersRoute = express.Router();
 /**
@@ -15,8 +15,7 @@ const usersRoute = express.Router();
  */
 
 usersRoute.use(authMiddleware.authProtect);
-usersRoute.use(authMiddleware.authRestrictTo(["superadmin"]));
-
+usersRoute.use(authMiddleware.authRestrictTo(['superadmin']));
 
 /**
  * @swagger
@@ -38,7 +37,7 @@ usersRoute.use(authMiddleware.authRestrictTo(["superadmin"]));
  *         description: Some internal server error
  *
  */
-usersRoute.get("/", userController.getUsers.bind(userController));
+usersRoute.get('/', userController.getUsers.bind(userController));
 
 /**
  * @swagger
@@ -71,7 +70,7 @@ usersRoute.get("/", userController.getUsers.bind(userController));
  *         description: Some internal server error
  *
  */
-usersRoute.get("/:id", userController.getUser.bind(userController));
+usersRoute.get('/:id', userController.getUser.bind(userController));
 
 /**
  * @swagger
@@ -105,7 +104,7 @@ usersRoute.get("/:id", userController.getUser.bind(userController));
  *
  */
 usersRoute.patch(
-  "/:id/deactivate",
+  '/:id/deactivate',
   userController.deactivateUser.bind(userController)
 );
 

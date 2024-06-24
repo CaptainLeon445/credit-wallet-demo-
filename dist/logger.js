@@ -10,8 +10,8 @@ const logger = winston_1.default.createLogger({
     transports: [
         new winston_1.default.transports.Console(),
         new winston_1.default.transports.File({
-            filename: "logs/errors/error.log",
-            level: "error",
+            filename: 'logs/errors/error.log',
+            level: 'error',
         }),
     ],
 });

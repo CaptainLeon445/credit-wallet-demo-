@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import { AppError } from "./ErrorHandlers/AppError";
-import AuthUtilities from "../utils/auth/auth.utils";
-import logger from "../logger";
-import UserUtils from "../utils/user/user.utils";
+import { NextFunction, Request, Response } from 'express';
+import { AppError } from './ErrorHandlers/AppError';
+import AuthUtilities from '../utils/auth/auth.utils';
+import logger from '../logger';
+import UserUtils from '../utils/user/user.utils';
 
 declare global {
   namespace Express {
@@ -17,22 +17,22 @@ export class AuthMiddleware {
     token: string,
     secretKey: string
   ): Promise<any> => {
-    return await AuthUtilities.verifyAuthToken(token, secretKey);
+    return AuthUtilities.verifyAuthToken(token, secretKey);
   };
 
   private readonly getAccessToken = async (
     req: Request,
     next: NextFunction
   ): Promise<string | void> => {
-    const authHeader = req.headers.authorization?.split(" ");
+    const authHeader = req.headers.authorization?.split(' ');
     if (authHeader && authHeader.length === 2) {
       const [bearer, accessToken] = authHeader;
-      if (bearer !== "Bearer")
-        return next(new AppError("You are not authorized", 401));
+      if (bearer !== 'Bearer')
+        return next(new AppError('You are not authorized', 401));
       if (!accessToken)
-        return next(new AppError("You are not authorized", 401));
+        return next(new AppError('You are not authorized', 401));
       return accessToken;
-    } else return next(new AppError("You are not authorized", 401));
+    } else return next(new AppError('You are not authorized', 401));
   };
 
   private readonly getUserFromToken = async (id: number) => {
@@ -47,18 +47,18 @@ export class AuthMiddleware {
     try {
       const accessToken = await this.getAccessToken(req, next);
       if (!accessToken)
-        return next(new AppError("You are not authorized", 401));
+        return next(new AppError('You are not authorized', 401));
       const decoded: any = await this.verifyAndDecodeToken(
         accessToken,
         process.env.JWT_SECRET_KEY!
       );
       const user = await this.getUserFromToken(decoded.id);
-      if (!user) return next(new AppError("You are not authorized", 401));
+      if (!user) return next(new AppError('You are not authorized', 401));
       req.user = user;
       next();
     } catch (error: any) {
-      logger.error("Error", error);
-      return next(new AppError("You are not authorized", 401));
+      logger.error('Error', error);
+      return next(new AppError('You are not authorized', 401));
     }
   };
 
@@ -68,13 +68,13 @@ export class AuthMiddleware {
         if (!roles.includes(req.user.role))
           return next(
             new AppError(
-              "You do not have permission to perform this action.",
+              'You do not have permission to perform this action.',
               401
             )
           );
         next();
       } catch (err: any) {
-        logger.error("error", err);
+        logger.error('error', err);
         return next(new AppError(err.message, err.status));
       }
     };

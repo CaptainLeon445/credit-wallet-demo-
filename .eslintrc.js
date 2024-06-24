@@ -35,7 +35,9 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/prefer-default-export': 'off',
+    '@typescript-eslint/no-explicit-any': 'off', 
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
-    'prettier/prettier': ['error', { endOfLine: 'auto' }], // Ensure consistent line endings
+    'prettier/prettier': ['error', { endOfLine: 'lf' }], // Ensure consistent line endings
+    '@typescript-eslint/no-namespace': 'off', 
   },
 };

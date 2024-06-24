@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import Joi from "joi";
-import logger from "../../logger";
-import { AppError } from "../ErrorHandlers/AppError";
+import { NextFunction, Request, Response } from 'express';
+import Joi from 'joi';
+import logger from '../../logger';
+import { AppError } from '../ErrorHandlers/AppError';
 
 export const validateRegister = (
   req: Request,
@@ -10,18 +10,18 @@ export const validateRegister = (
 ) => {
   const schema: Joi.ObjectSchema = Joi.object({
     email: Joi.string().email({ minDomainSegments: 2 }).required().messages({
-      "string.base": "Your email must be a string",
-      "string.email": "Please enter a valid email address",
-      "any.required": "Please enter your email address",
+      'string.base': 'Your email must be a string',
+      'string.email': 'Please enter a valid email address',
+      'any.required': 'Please enter your email address',
     }),
     username: Joi.string().required().messages({
-      "string.base": "Your username must be a string",
-      "any.required": "Please enter your first name",
+      'string.base': 'Your username must be a string',
+      'any.required': 'Please enter your first name',
     }),
     role: Joi.string().valid('admin', 'user', 'superadmin').required(),
     password: Joi.string().required().messages({
-      "string.base": "Your password must be a string",
-      "any.required": "Please enter your password",
+      'string.base': 'Your password must be a string',
+      'any.required': 'Please enter your password',
     }),
   });
   req.body.email = req.body.email.trim().toLowerCase();
@@ -42,12 +42,12 @@ export const validateLogin = (
 ) => {
   const schema: Joi.ObjectSchema = Joi.object({
     username: Joi.string().required().messages({
-      "string.base": "Your username must be a string",
-      "any.required": "Please enter your first name",
+      'string.base': 'Your username must be a string',
+      'any.required': 'Please enter your first name',
     }),
     password: Joi.string().required().messages({
-      "string.base": "Your password must be a string",
-      "any.required": "Please enter your password",
+      'string.base': 'Your password must be a string',
+      'any.required': 'Please enter your password',
     }),
   });
 

@@ -6,25 +6,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const db_connection_1 = __importDefault(require("../../config/db.connection"));
 class WalletUtils {
     static async getWalletByUId(uid) {
-        const [wallet] = await (0, db_connection_1.default)("wallets").where({ uid }).returning("*");
+        const [wallet] = await (0, db_connection_1.default)('wallets').where({ uid }).returning('*');
         return wallet;
     }
     static async getWalletById(id) {
-        const [wallet] = await (0, db_connection_1.default)("wallets").where({ id }).returning("*");
+        const [wallet] = await (0, db_connection_1.default)('wallets').where({ id }).returning('*');
         return wallet;
     }
     static async deactivateWallet(id) {
-        const [updatedWallet] = await (0, db_connection_1.default)("wallets")
+        const [updatedWallet] = await (0, db_connection_1.default)('wallets')
             .update({ active: false })
             .where({ id })
-            .returning("*");
+            .returning('*');
         return updatedWallet;
     }
     static async activateWallet(id) {
-        const [updatedWallet] = await (0, db_connection_1.default)("wallets")
+        const [updatedWallet] = await (0, db_connection_1.default)('wallets')
             .update({ active: true })
             .where({ id })
-            .returning("*");
+            .returning('*');
         return updatedWallet;
     }
 }

@@ -1,10 +1,10 @@
-import express from "express";
-import container from "../containers/container.global";
-import UserController from "../controllers/user/user.controller";
-import { AuthMiddleware } from "../middlewares/auth.middleware";
+import express from 'express';
+import container from '../containers/container.global';
+import UserController from '../controllers/user/user.controller';
+import { AuthMiddleware } from '../middlewares/auth.middleware';
 
-const userController = container.resolve<UserController>("UserController");
-const authMiddleware = container.resolve<AuthMiddleware>("AuthMiddleware");
+const userController = container.resolve<UserController>('UserController');
+const authMiddleware = container.resolve<AuthMiddleware>('AuthMiddleware');
 
 const userRoute = express.Router();
 /**
@@ -40,7 +40,7 @@ userRoute.use(authMiddleware.authProtect);
  *         description: Some internal server error
  *
  */
-userRoute.get("/", userController.getUser.bind(userController));
+userRoute.get('/', userController.getUser.bind(userController));
 
 /**
  * @swagger
@@ -67,7 +67,7 @@ userRoute.get("/", userController.getUser.bind(userController));
  *
  */
 userRoute.patch(
-  "/deactivate",
+  '/deactivate',
   userController.deactivateUser.bind(userController)
 );
 

@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const container_global_1 = __importDefault(require("../containers/container.global"));
-const userController = container_global_1.default.resolve("UserController");
-const authMiddleware = container_global_1.default.resolve("AuthMiddleware");
+const userController = container_global_1.default.resolve('UserController');
+const authMiddleware = container_global_1.default.resolve('AuthMiddleware');
 const usersRoute = express_1.default.Router();
 /**
  * @swagger
@@ -15,7 +15,7 @@ const usersRoute = express_1.default.Router();
  *     default:
  */
 usersRoute.use(authMiddleware.authProtect);
-usersRoute.use(authMiddleware.authRestrictTo(["superadmin"]));
+usersRoute.use(authMiddleware.authRestrictTo(['superadmin']));
 /**
  * @swagger
  * tags:
@@ -36,7 +36,7 @@ usersRoute.use(authMiddleware.authRestrictTo(["superadmin"]));
  *         description: Some internal server error
  *
  */
-usersRoute.get("/", userController.getUsers.bind(userController));
+usersRoute.get('/', userController.getUsers.bind(userController));
 /**
  * @swagger
  * tags:
@@ -68,7 +68,7 @@ usersRoute.get("/", userController.getUsers.bind(userController));
  *         description: Some internal server error
  *
  */
-usersRoute.get("/:id", userController.getUser.bind(userController));
+usersRoute.get('/:id', userController.getUser.bind(userController));
 /**
  * @swagger
  * tags:
@@ -100,5 +100,5 @@ usersRoute.get("/:id", userController.getUser.bind(userController));
  *         description: Some internal server error
  *
  */
-usersRoute.patch("/:id/deactivate", userController.deactivateUser.bind(userController));
+usersRoute.patch('/:id/deactivate', userController.deactivateUser.bind(userController));
 exports.default = usersRoute;

@@ -1,32 +1,32 @@
-import { Request, Response, NextFunction } from "express";
-import { GlobalUtilities } from "../../utils/global.utils";
-import { WalletService } from "../../services/wallet/wallet.service";
-import { FundDTO, TransferFundDTO } from "../../utils/dto/wallet.dto";
-import { catchAsync } from "../../utils/catchAsyncError";
-import WalletUtils from "../../utils/wallet/wallet.utils";
-import { AppError } from "../../middlewares/ErrorHandlers/AppError";
+import { Request, Response, NextFunction } from 'express';
+import { GlobalUtilities } from '../../utils/global.utils';
+import { WalletService } from '../../services/wallet/wallet.service';
+import { FundDTO, TransferFundDTO } from '../../utils/dto/wallet.dto';
+import { catchAsync } from '../../utils/catchAsyncError';
+import WalletUtils from '../../utils/wallet/wallet.utils';
+import { AppError } from '../../middlewares/ErrorHandlers/AppError';
 
 export default class WalletController {
   constructor(private readonly walletService: WalletService) {}
-  public getWallets = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const data = await this.walletService.getWallets();
-      if (data)
-        await GlobalUtilities.response(
-          res,
-          "Wallets returned successfully!",
-          200,
-          data,
-          data.length
-        );
-    }
-  );
+
+  public getWallets = catchAsync(async (req: Request, res: Response) => {
+    const data = await this.walletService.getWallets();
+    if (data)
+      await GlobalUtilities.response(
+        res,
+        'Wallets returned successfully!',
+        200,
+        data,
+        data.length
+      );
+  });
+
   public getWallet = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
-      if (!user.active) return next(new AppError("User account inactive", 403));
+      if (!user.active) return next(new AppError('User account inactive', 403));
       let id: number;
-      if (user.role === "superadmin") id = Number(req.params.id);
+      if (user.role === 'superadmin') id = Number(req.params.id);
       else {
         const wallet = await WalletUtils.getWalletByUId(user.id);
         id = wallet.id;
@@ -35,18 +35,19 @@ export default class WalletController {
       if (data)
         await GlobalUtilities.response(
           res,
-          "Wallet details returned successfully!",
+          'Wallet details returned successfully!',
           200,
           data
         );
     }
   );
+
   public fundWallet = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
-      if (!user.active) return next(new AppError("User account inactive", 403));
+      if (!user.active) return next(new AppError('User account inactive', 403));
       let id: number;
-      if (user.role === "superadmin") id = Number(req.params.id);
+      if (user.role === 'superadmin') id = Number(req.params.id);
       else {
         const wallet = await WalletUtils.getWalletByUId(user.id);
         id = wallet.id;
@@ -57,7 +58,7 @@ export default class WalletController {
       if (data)
         await GlobalUtilities.response(
           res,
-          "Wallet funded successfully!",
+          'Wallet funded successfully!',
           201,
           data
         );
@@ -67,9 +68,9 @@ export default class WalletController {
   public transferFunds = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
-      if (!user.active) return next(new AppError("User account inactive", 403));
+      if (!user.active) return next(new AppError('User account inactive', 403));
       let id: number;
-      if (user.role === "superadmin") id = Number(req.params.id);
+      if (user.role === 'superadmin') id = Number(req.params.id);
       else {
         const wallet = await WalletUtils.getWalletByUId(user.id);
         id = wallet.id;
@@ -79,16 +80,16 @@ export default class WalletController {
       const requestData: TransferFundDTO = req.body;
       const data = await this.walletService.transferFunds(requestData, next);
       if (data)
-        await GlobalUtilities.response(res, "Transfer successful!", 201, data);
+        await GlobalUtilities.response(res, 'Transfer successful!', 201, data);
     }
   );
 
   public withdrawFunds = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
-      if (!user.active) return next(new AppError("User account inactive", 403));
+      if (!user.active) return next(new AppError('User account inactive', 403));
       let id: number;
-      if (user.role === "superadmin") id = Number(req.params.id);
+      if (user.role === 'superadmin') id = Number(req.params.id);
       else {
         const wallet = await WalletUtils.getWalletByUId(user.id);
         id = wallet.id;
@@ -99,7 +100,7 @@ export default class WalletController {
       if (data)
         await GlobalUtilities.response(
           res,
-          "Withdrawal successful!",
+          'Withdrawal successful!',
           201,
           data
         );
@@ -110,7 +111,7 @@ export default class WalletController {
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
       let id: number;
-      if (user.role === "superadmin") id = Number(req.params.id);
+      if (user.role === 'superadmin') id = Number(req.params.id);
       else {
         const wallet = await WalletUtils.getWalletByUId(user.id);
         id = wallet.id;
@@ -119,7 +120,7 @@ export default class WalletController {
       if (data)
         await GlobalUtilities.response(
           res,
-          "Wallet deactivated successfully!",
+          'Wallet deactivated successfully!',
           201,
           data
         );
@@ -130,7 +131,7 @@ export default class WalletController {
     async (req: Request, res: Response, next: NextFunction) => {
       const user = req.user;
       let id: number;
-      if (user.role === "superadmin") id = Number(req.params.id);
+      if (user.role === 'superadmin') id = Number(req.params.id);
       else {
         const wallet = await WalletUtils.getWalletByUId(user.id);
         id = wallet.id;
@@ -139,7 +140,7 @@ export default class WalletController {
       if (data)
         await GlobalUtilities.response(
           res,
-          "Wallet activated successfully!",
+          'Wallet activated successfully!',
           201,
           data
         );

@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Response } from 'express';
 
 export class GlobalUtilities {
   public static async response(
@@ -9,7 +9,7 @@ export class GlobalUtilities {
     count?: number
   ) {
     return res.status(statusCode).json({
-      status: "success",
+      status: 'success',
       message,
       count,
       data,

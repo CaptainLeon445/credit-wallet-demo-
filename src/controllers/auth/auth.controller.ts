@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-import { LoginDTO, UserDTO } from "../../utils/dto/user.dto";
-import { GlobalUtilities } from "../../utils/global.utils";
-import AuthService from "../../services/auth/auth.service";
-import { catchAsync } from "../../utils/catchAsyncError";
-import AuthUtilities from "../../utils/auth/auth.utils";
+import { NextFunction, Request, Response } from 'express';
+import { LoginDTO, UserDTO } from '../../utils/dto/user.dto';
+import { GlobalUtilities } from '../../utils/global.utils';
+import AuthService from '../../services/auth/auth.service';
+import { catchAsync } from '../../utils/catchAsyncError';
+import AuthUtilities from '../../utils/auth/auth.utils';
 
 export default class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -18,7 +18,7 @@ export default class AuthController {
       if (data) {
         await GlobalUtilities.response(
           res,
-          "Account created successfully",
+          'Account created successfully',
           201,
           data
         );
@@ -37,7 +37,7 @@ export default class AuthController {
         const data = await AuthUtilities.getLoginData(req, user);
         await GlobalUtilities.response(
           res,
-          "User logged in successfully.",
+          'User logged in successfully.',
           201,
           data
         );

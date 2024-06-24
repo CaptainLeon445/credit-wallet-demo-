@@ -1,12 +1,12 @@
-import express from "express";
-import AuthController from "../controllers/auth/auth.controller";
-import container from "../containers/container.global";
+import express from 'express';
+import AuthController from '../controllers/auth/auth.controller';
+import container from '../containers/container.global';
 import {
   validateLogin,
   validateRegister,
-} from "../middlewares/validators/auth.validators";
+} from '../middlewares/validators/auth.validators';
 
-const authController = container.resolve<AuthController>("AuthController");
+const authController = container.resolve<AuthController>('AuthController');
 
 const authRoutes = express.Router();
 /**
@@ -101,7 +101,7 @@ const authRoutes = express.Router();
  *
  */
 authRoutes.post(
-  "/register",
+  '/register',
   validateRegister,
   authController.register.bind(authController)
 );
@@ -139,7 +139,7 @@ authRoutes.post(
  *
  */
 authRoutes.post(
-  "/login",
+  '/login',
   validateLogin,
   authController.login.bind(authController)
 );

@@ -14,17 +14,17 @@ class AuthService {
     async createUser(userDTO, next) {
         const { username, password, email } = userDTO;
         try {
-            const [emailExist] = await (0, db_connection_1.default)("users").where({ email });
+            const [emailExist] = await (0, db_connection_1.default)('users').where({ email });
             if (emailExist)
-                return next(new AppError_1.AppError("User with the email already exists", 409));
-            const [user] = await (0, db_connection_1.default)("users").where({ username });
+                return next(new AppError_1.AppError('User with the email already exists', 409));
+            const [user] = await (0, db_connection_1.default)('users').where({ username });
             if (user)
-                return next(new AppError_1.AppError("User with the username already exists", 409));
+                return next(new AppError_1.AppError('User with the username already exists', 409));
             const strongPassword = await auth_utils_1.default.validatePasswordLength(password);
             if (!strongPassword)
-                return next(new AppError_1.AppError("Password must be 8 characters long with a number,special character, lowercase and uppercase letter.", 400));
+                return next(new AppError_1.AppError('Password must be 8 characters long with a number,special character, lowercase and uppercase letter.', 400));
             userDTO.password = await auth_utils_1.default.generateHash(password);
-            const [data] = await (0, db_connection_1.default)("users").insert(userDTO).returning("*");
+            const [data] = await (0, db_connection_1.default)('users').insert(userDTO).returning('*');
             await this.walletService.createWallet({ uid: data.id }, next);
             delete data.password;
             delete data.id;

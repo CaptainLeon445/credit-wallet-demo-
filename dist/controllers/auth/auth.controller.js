@@ -16,7 +16,7 @@ class AuthController {
             const userData = req.body;
             const data = await this.authService.createUser(userData, next);
             if (data) {
-                await global_utils_1.GlobalUtilities.response(res, "Account created successfully", 201, data);
+                await global_utils_1.GlobalUtilities.response(res, 'Account created successfully', 201, data);
             }
         });
         /**
@@ -27,7 +27,7 @@ class AuthController {
             const user = await this.authService.login(loginData, next);
             if (user) {
                 const data = await auth_utils_1.default.getLoginData(req, user);
-                await global_utils_1.GlobalUtilities.response(res, "User logged in successfully.", 201, data);
+                await global_utils_1.GlobalUtilities.response(res, 'User logged in successfully.', 201, data);
             }
         });
     }

@@ -1,33 +1,34 @@
-import { NextFunction } from "express";
-import db from "../../config/db.connection";
-import { LoginDTO, UserDTO } from "../../utils/dto/user.dto";
-import { AppError } from "../../middlewares/ErrorHandlers/AppError";
-import AuthUtilities from "../../utils/auth/auth.utils";
-import { WalletService } from "../wallet/wallet.service";
-import UserUtils from "../../utils/user/user.utils";
+import { NextFunction } from 'express';
+import db from '../../config/db.connection';
+import { LoginDTO, UserDTO } from '../../utils/dto/user.dto';
+import { AppError } from '../../middlewares/ErrorHandlers/AppError';
+import AuthUtilities from '../../utils/auth/auth.utils';
+import { WalletService } from '../wallet/wallet.service';
+import UserUtils from '../../utils/user/user.utils';
 
 export default class AuthService {
   constructor(private readonly walletService: WalletService) {}
+
   public async createUser(userDTO: UserDTO, next: NextFunction) {
     const { username, password, email } = userDTO;
     try {
-      const [emailExist] = await db("users").where({ email });
+      const [emailExist] = await db('users').where({ email });
       if (emailExist)
-        return next(new AppError("User with the email already exists", 409));
-      const [user] = await db("users").where({ username });
+        return next(new AppError('User with the email already exists', 409));
+      const [user] = await db('users').where({ username });
       if (user)
-        return next(new AppError("User with the username already exists", 409));
+        return next(new AppError('User with the username already exists', 409));
       const strongPassword =
         await AuthUtilities.validatePasswordLength(password);
       if (!strongPassword)
         return next(
           new AppError(
-            "Password must be 8 characters long with a number,special character, lowercase and uppercase letter.",
+            'Password must be 8 characters long with a number,special character, lowercase and uppercase letter.',
             400
           )
         );
       userDTO.password = await AuthUtilities.generateHash(password);
-      const [data] = await db("users").insert(userDTO).returning("*");
+      const [data] = await db('users').insert(userDTO).returning('*');
       await this.walletService.createWallet({ uid: data.id }, next);
       delete data.password;
       delete data.id;

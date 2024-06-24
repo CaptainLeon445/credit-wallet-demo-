@@ -1,15 +1,15 @@
-import express from "express";
-import container from "../containers/container.global";
-import WalletController from "../controllers/wallet/wallet.controller";
-import { AuthMiddleware } from "../middlewares/auth.middleware";
+import express from 'express';
+import container from '../containers/container.global';
+import WalletController from '../controllers/wallet/wallet.controller';
+import { AuthMiddleware } from '../middlewares/auth.middleware';
 import {
   validateFund,
   validateTransferFund,
-} from "../middlewares/validators/wallet.validators";
+} from '../middlewares/validators/wallet.validators';
 
 const walletController =
-  container.resolve<WalletController>("WalletController");
-const authMiddleware = container.resolve<AuthMiddleware>("AuthMiddleware");
+  container.resolve<WalletController>('WalletController');
+const authMiddleware = container.resolve<AuthMiddleware>('AuthMiddleware');
 
 const walletRoutes = express.Router();
 /**
@@ -79,8 +79,8 @@ walletRoutes.use(authMiddleware.authProtect);
  *
  */
 walletRoutes.get(
-  "/",
-  authMiddleware.authRestrictTo(["superadmin"]),
+  '/',
+  authMiddleware.authRestrictTo(['superadmin']),
   walletController.getWallets.bind(walletController)
 );
 
@@ -114,7 +114,7 @@ walletRoutes.get(
  *         description: Some internal server error
  *
  */
-walletRoutes.get("/:id", walletController.getWallet.bind(walletController));
+walletRoutes.get('/:id', walletController.getWallet.bind(walletController));
 
 /**
  * @swagger
@@ -147,7 +147,7 @@ walletRoutes.get("/:id", walletController.getWallet.bind(walletController));
  *
  */
 walletRoutes.patch(
-  "/:id/deactivate",
+  '/:id/deactivate',
   walletController.deactivateWallet.bind(walletController)
 );
 
@@ -182,7 +182,7 @@ walletRoutes.patch(
  *
  */
 walletRoutes.patch(
-  "/:id/activate",
+  '/:id/activate',
   walletController.activateWallet.bind(walletController)
 );
 
@@ -225,7 +225,7 @@ walletRoutes.patch(
  *
  */
 walletRoutes.post(
-  "/:id/fund",
+  '/:id/fund',
   validateFund,
   walletController.fundWallet.bind(walletController)
 );
@@ -273,7 +273,7 @@ walletRoutes.post(
  *
  */
 walletRoutes.post(
-  "/:id/transfer",
+  '/:id/transfer',
   validateTransferFund,
   walletController.transferFunds.bind(walletController)
 );
@@ -317,7 +317,7 @@ walletRoutes.post(
  *
  */
 walletRoutes.post(
-  "/:id/withdraw",
+  '/:id/withdraw',
   validateFund,
   walletController.withdrawFunds.bind(walletController)
 );

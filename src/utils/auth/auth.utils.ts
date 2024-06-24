@@ -1,6 +1,6 @@
-import bcrypt from "bcrypt";
-import { Request } from "express";
-import * as jwt from "jsonwebtoken";
+import bcrypt from 'bcrypt';
+import { Request } from 'express';
+import * as jwt from 'jsonwebtoken';
 
 export default class AuthUtilities {
   public static async verifyAuthToken(
@@ -20,7 +20,7 @@ export default class AuthUtilities {
     text: string,
     hash: string
   ): Promise<boolean> {
-    return await bcrypt.compare(text, hash);
+    return bcrypt.compare(text, hash);
   }
 
   public static async validatePasswordLength(password: string) {
@@ -35,9 +35,8 @@ export default class AuthUtilities {
     req: Request,
     user: any
   ): Promise<Record<string, any>> {
-    const accessToken: string = await AuthUtilities.getAuthToken(user.id, req);
+    const accessToken: string = await AuthUtilities.getAuthToken(user.id);
     const refreshToken: string = await AuthUtilities.getRefreshAuthToken(
-      req,
       user.id
     );
     delete user.password;
@@ -52,13 +51,13 @@ export default class AuthUtilities {
     return data;
   }
 
-  public static async getRefreshAuthToken(req: Request, id: number) {
+  public static async getRefreshAuthToken(id: number) {
     const expiresIn: string = process.env.JWT_RefreshToken_ExpiresIn!;
     const result: string = await this.getToken(expiresIn, id);
     return result;
   }
 
-  public static async getAuthToken(id: number, req: Request) {
+  public static async getAuthToken(id: number) {
     const expiresIn: string = process.env.JWT_ExpiresIn!;
     const result: string = await this.getToken(expiresIn, id);
     return result;

@@ -6,16 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userTable = void 0;
 const db_connection_1 = __importDefault(require("../config/db.connection"));
 const userTable = async () => {
-    await db_connection_1.default.schema.createTable("users", (table) => {
-        table.increments("id").primary();
-        table.string("username").notNullable().unique();
-        table.string("email").notNullable().unique();
-        table.string("password").notNullable();
+    await db_connection_1.default.schema.createTable('users', (table) => {
+        table.increments('id').primary();
+        table.string('username').notNullable().unique();
+        table.string('email').notNullable().unique();
+        table.string('password').notNullable();
         table
-            .enum("role", ["user", "admin", "superadmin"])
-            .defaultTo("user")
+            .enum('role', ['user', 'admin', 'superadmin'])
+            .defaultTo('user')
             .notNullable();
-        table.boolean("active").defaultTo(true);
+        table.boolean('active').defaultTo(true);
         table.timestamps(true, true);
     });
 };

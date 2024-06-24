@@ -10,18 +10,18 @@ const AppError_1 = require("../ErrorHandlers/AppError");
 const validateRegister = (req, res, next) => {
     const schema = joi_1.default.object({
         email: joi_1.default.string().email({ minDomainSegments: 2 }).required().messages({
-            "string.base": "Your email must be a string",
-            "string.email": "Please enter a valid email address",
-            "any.required": "Please enter your email address",
+            'string.base': 'Your email must be a string',
+            'string.email': 'Please enter a valid email address',
+            'any.required': 'Please enter your email address',
         }),
         username: joi_1.default.string().required().messages({
-            "string.base": "Your username must be a string",
-            "any.required": "Please enter your first name",
+            'string.base': 'Your username must be a string',
+            'any.required': 'Please enter your first name',
         }),
         role: joi_1.default.string().valid('admin', 'user', 'superadmin').required(),
         password: joi_1.default.string().required().messages({
-            "string.base": "Your password must be a string",
-            "any.required": "Please enter your password",
+            'string.base': 'Your password must be a string',
+            'any.required': 'Please enter your password',
         }),
     });
     req.body.email = req.body.email.trim().toLowerCase();
@@ -36,12 +36,12 @@ exports.validateRegister = validateRegister;
 const validateLogin = (req, res, next) => {
     const schema = joi_1.default.object({
         username: joi_1.default.string().required().messages({
-            "string.base": "Your username must be a string",
-            "any.required": "Please enter your first name",
+            'string.base': 'Your username must be a string',
+            'any.required': 'Please enter your first name',
         }),
         password: joi_1.default.string().required().messages({
-            "string.base": "Your password must be a string",
-            "any.required": "Please enter your password",
+            'string.base': 'Your password must be a string',
+            'any.required': 'Please enter your password',
         }),
     });
     const { error } = schema.validate(req.body);

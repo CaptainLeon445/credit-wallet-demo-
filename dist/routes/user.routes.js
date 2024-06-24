@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const container_global_1 = __importDefault(require("../containers/container.global"));
-const userController = container_global_1.default.resolve("UserController");
-const authMiddleware = container_global_1.default.resolve("AuthMiddleware");
+const userController = container_global_1.default.resolve('UserController');
+const authMiddleware = container_global_1.default.resolve('AuthMiddleware');
 const userRoute = express_1.default.Router();
 /**
  * @swagger
@@ -39,7 +39,7 @@ userRoute.use(authMiddleware.authProtect);
  *         description: Some internal server error
  *
  */
-userRoute.get("/", userController.getUser.bind(userController));
+userRoute.get('/', userController.getUser.bind(userController));
 /**
  * @swagger
  * tags:
@@ -64,5 +64,5 @@ userRoute.get("/", userController.getUser.bind(userController));
  *         description: Some internal server error
  *
  */
-userRoute.patch("/deactivate", userController.deactivateUser.bind(userController));
+userRoute.patch('/deactivate', userController.deactivateUser.bind(userController));
 exports.default = userRoute;

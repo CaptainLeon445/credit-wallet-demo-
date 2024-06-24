@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import app from "./app";
-import { BASE_10 } from "./constants/values.constant";
-import logger from "./logger";
-import { GlobalErrorHandler } from "./middlewares/ErrorHandlers/Handler";
+import { NextFunction, Request, Response } from 'express';
+import app from './app';
+import { BASE_10 } from './constants/values.constant';
+import logger from './logger';
+import { GlobalErrorHandler } from './middlewares/ErrorHandlers/Handler';
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   GlobalErrorHandler.handleError(err, req, res, next);

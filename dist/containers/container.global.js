@@ -23,13 +23,13 @@ class Container {
 }
 const container = new Container();
 // Register Middleware
-container.register("AuthMiddleware", new auth_middleware_1.AuthMiddleware());
+container.register('AuthMiddleware', new auth_middleware_1.AuthMiddleware());
 // Register Services
-container.register("UserService", new user_service_1.UserService());
-container.register("WalletService", new wallet_service_1.WalletService());
-container.register("AuthService", new auth_service_1.default(container.resolve("WalletService")));
+container.register('UserService', new user_service_1.UserService());
+container.register('WalletService', new wallet_service_1.WalletService());
+container.register('AuthService', new auth_service_1.default(container.resolve('WalletService')));
 // Register Controllers
-container.register("AuthController", new auth_controller_1.default(container.resolve("AuthService")));
-container.register("UserController", new user_controller_1.default(container.resolve("UserService")));
-container.register("WalletController", new wallet_controller_1.default(container.resolve("WalletService")));
+container.register('AuthController', new auth_controller_1.default(container.resolve('AuthService')));
+container.register('UserController', new user_controller_1.default(container.resolve('UserService')));
+container.register('WalletController', new wallet_controller_1.default(container.resolve('WalletService')));
 exports.default = container;

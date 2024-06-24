@@ -1,4 +1,4 @@
-import winston from "winston";
+import winston from 'winston';
 const { timestamp, json, combine } = winston.format;
 
 const logger = winston.createLogger({
@@ -6,8 +6,8 @@ const logger = winston.createLogger({
   transports: [
     new winston.transports.Console(),
     new winston.transports.File({
-      filename: "logs/errors/error.log",
-      level: "error",
+      filename: 'logs/errors/error.log',
+      level: 'error',
     }),
   ],
 });

@@ -38,7 +38,7 @@ class AuthUtilities {
         return hashedPassword;
     }
     static async validateHash(text, hash) {
-        return await bcrypt_1.default.compare(text, hash);
+        return bcrypt_1.default.compare(text, hash);
     }
     static async validatePasswordLength(password) {
         const passwordRegExp = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).{8,}$/;
@@ -48,8 +48,8 @@ class AuthUtilities {
         return true;
     }
     static async getLoginData(req, user) {
-        const accessToken = await AuthUtilities.getAuthToken(user.id, req);
-        const refreshToken = await AuthUtilities.getRefreshAuthToken(req, user.id);
+        const accessToken = await AuthUtilities.getAuthToken(user.id);
+        const refreshToken = await AuthUtilities.getRefreshAuthToken(user.id);
         delete user.password;
         delete user.id;
         const data = {
@@ -59,12 +59,12 @@ class AuthUtilities {
         };
         return data;
     }
-    static async getRefreshAuthToken(req, id) {
+    static async getRefreshAuthToken(id) {
         const expiresIn = process.env.JWT_RefreshToken_ExpiresIn;
         const result = await this.getToken(expiresIn, id);
         return result;
     }
-    static async getAuthToken(id, req) {
+    static async getAuthToken(id) {
         const expiresIn = process.env.JWT_ExpiresIn;
         const result = await this.getToken(expiresIn, id);
         return result;

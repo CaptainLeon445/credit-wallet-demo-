@@ -23,7 +23,7 @@ const users_routes_1 = __importDefault(require("./routes/users.routes"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
-app.use(express_1.default.json({ limit: "50kb" }));
+app.use(express_1.default.json({ limit: '50kb' }));
 // Enable XSS protection
 app.use((req, res, next) => {
     res.locals.xss = xss_1.default;
@@ -34,29 +34,29 @@ app.use((0, hpp_1.default)());
 // Compress text size
 app.use((0, compression_1.default)());
 // Reduce Fingerprinting
-app.disable("x-powered-by");
+app.disable('x-powered-by');
 // Logger middleware
-app.use((0, morgan_1.default)("dev"));
+app.use((0, morgan_1.default)('dev'));
 // Custom middleware
 app.use((req, res, next) => {
-    console.log("Using credit wallet demo middlewares API. 💻");
+    console.log('Using credit wallet demo middlewares API. 💻');
     next();
 });
 // Swagger configuration
 const swaggerOptions = {
     definition: {
-        openapi: "3.0.0",
+        openapi: '3.0.0',
         info: {
-            title: "Credit wallet demo API Endpoints",
-            version: "1.0.0",
-            description: "This is a swagger documentation and endpoints for a credit wallet demo application.",
+            title: 'Credit wallet demo API Endpoints',
+            version: '1.0.0',
+            description: 'This is a swagger documentation and endpoints for a credit wallet demo application.',
         },
         components: {
             securitySchemes: {
                 bearerAuth: {
-                    type: "http",
-                    scheme: "bearer",
-                    bearerFormat: "JWT",
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
                 },
             },
         },
@@ -67,43 +67,43 @@ const swaggerOptions = {
         ],
         servers: [],
     },
-    apis: ["./src/routes/*.ts"],
+    apis: ['./src/routes/*.ts'],
     requestInterceptor: (req) => {
-        req.credentials = "include";
+        req.credentials = 'include';
         return req;
     },
 };
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === 'production') {
     swaggerOptions.definition.servers[0] = { url: process.env.SERVER_PROD_URL };
 }
 else {
     swaggerOptions.definition.servers[0] = {
-        url: process.env.SERVER_LOCAL_URL?.replace("<PORT>", process.env.PORT),
+        url: process.env.SERVER_LOCAL_URL?.replace('<PORT>', process.env.PORT),
     };
 }
 const swaggerSpec = (0, swagger_jsdoc_1.default)(swaggerOptions);
-app.get("/", (req, res) => {
-    global_utils_1.GlobalUtilities.response(res, "Your demo credit wallet API endpoints are available", 200);
+app.get('/', (req, res) => {
+    global_utils_1.GlobalUtilities.response(res, 'Your demo credit wallet API endpoints are available', 200);
 });
-app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerSpec, { explorer: false }));
-app.use("/v1/api/auth", auth_routes_1.default);
-app.use("/v1/api/profile", user_routes_1.default);
-app.use("/v1/api/users", users_routes_1.default);
-app.use("/v1/api/wallets", wallet_routes_1.default);
+app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerSpec, { explorer: false }));
+app.use('/v1/api/auth', auth_routes_1.default);
+app.use('/v1/api/profile', user_routes_1.default);
+app.use('/v1/api/users', users_routes_1.default);
+app.use('/v1/api/wallets', wallet_routes_1.default);
 // Log successful API request middleware
 app.use((req, res, next) => {
-    res.on("finish", () => {
+    res.on('finish', () => {
         if (res.statusCode < 400) {
-            console.log("API request successful. 💻");
+            console.log('API request successful. 💻');
         }
     });
     next();
 });
 // Catch all unhandled routes
-app.all("*", (req, res, next) => {
+app.all('*', (req, res) => {
     logger_1.default.error(`Can't find ${req.originalUrl} on the server`);
     res.status(404).json({
-        status: "fail",
+        status: 'fail',
         message: `Can't find ${req.originalUrl} on the server`,
     });
 });

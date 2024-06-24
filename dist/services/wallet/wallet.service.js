@@ -10,7 +10,7 @@ const wallet_utils_1 = __importDefault(require("../../utils/wallet/wallet.utils"
 class WalletService {
     async createWallet(walletDTO, next) {
         try {
-            const [data] = await (0, db_connection_1.default)("wallets").insert(walletDTO).returning("*");
+            const [data] = await (0, db_connection_1.default)('wallets').insert(walletDTO).returning('*');
             return data;
         }
         catch (error) {
@@ -18,26 +18,26 @@ class WalletService {
         }
     }
     async getWallets() {
-        const wallets = await (0, db_connection_1.default)("wallets").returning("*");
+        const wallets = await (0, db_connection_1.default)('wallets').returning('*');
         return wallets;
     }
     async getWallet(id, next) {
         const wallet = await wallet_utils_1.default.getWalletById(id);
         if (!wallet)
-            return next(new AppError_1.AppError("Wallet not found", 404));
+            return next(new AppError_1.AppError('Wallet not found', 404));
         return wallet;
     }
     async deactivateWallet(id, next) {
         const wallet = await wallet_utils_1.default.getWalletById(id);
         if (!wallet)
-            return next(new AppError_1.AppError("Wallet not found", 404));
+            return next(new AppError_1.AppError('Wallet not found', 404));
         const data = await wallet_utils_1.default.deactivateWallet(id);
         return data;
     }
     async activateWallet(id, next) {
         const wallet = await wallet_utils_1.default.getWalletById(id);
         if (!wallet)
-            return next(new AppError_1.AppError("Wallet not found", 404));
+            return next(new AppError_1.AppError('Wallet not found', 404));
         const data = await wallet_utils_1.default.activateWallet(id);
         return data;
     }
@@ -45,13 +45,13 @@ class WalletService {
         const { userWalletId, amount } = walletDTO;
         const wallet = await wallet_utils_1.default.getWalletById(userWalletId);
         if (!wallet)
-            return next(new AppError_1.AppError("Wallet not found", 404));
+            return next(new AppError_1.AppError('Wallet not found', 404));
         if (!wallet.active)
-            return next(new AppError_1.AppError("Wallet is inactive", 403));
-        const [data] = await (0, db_connection_1.default)("wallets")
+            return next(new AppError_1.AppError('Wallet is inactive', 403));
+        const [data] = await (0, db_connection_1.default)('wallets')
             .where({ id: userWalletId })
-            .increment("balance", amount)
-            .returning("*");
+            .increment('balance', amount)
+            .returning('*');
         return data;
     }
     async transferFunds(walletDTO, next) {
@@ -68,14 +68,14 @@ class WalletService {
                 return next(new AppError_1.AppError("Sender's wallet is not found", 404));
             if (!sender.active)
                 return next(new AppError_1.AppError("Sender's wallet is inactive", 403));
-            const [userWallet] = await trx("wallets")
+            const [userWallet] = await trx('wallets')
                 .where({ id: senderWalletId })
-                .decrement("balance", amount)
-                .returning("*");
-            await trx("wallets")
+                .decrement('balance', amount)
+                .returning('*');
+            await trx('wallets')
                 .where({ id: receiverWalletId })
-                .increment("balance", amount)
-                .returning("*");
+                .increment('balance', amount)
+                .returning('*');
             await trx.commit();
             return userWallet;
         }
@@ -87,13 +87,13 @@ class WalletService {
         const { userWalletId, amount } = walletDTO;
         const wallet = await wallet_utils_1.default.getWalletById(userWalletId);
         if (!wallet)
-            return next(new AppError_1.AppError("Wallet not found", 404));
+            return next(new AppError_1.AppError('Wallet not found', 404));
         if (!wallet.active)
-            return next(new AppError_1.AppError("Wallet is inactive", 403));
-        const [data] = await (0, db_connection_1.default)("wallets")
+            return next(new AppError_1.AppError('Wallet is inactive', 403));
+        const [data] = await (0, db_connection_1.default)('wallets')
             .where({ id: userWalletId })
-            .decrement("balance", amount)
-            .returning("*");
+            .decrement('balance', amount)
+            .returning('*');
         return data;
     }
 }

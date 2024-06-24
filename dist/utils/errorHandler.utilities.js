@@ -4,7 +4,7 @@ exports.ErrorHandler = void 0;
 class ErrorHandler {
     static prodErrorHandler(err, res) {
         return res.status(err.statusCode).json({
-            status: "error",
+            status: 'error',
             error: err.message,
         });
     }

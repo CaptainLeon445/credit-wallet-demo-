@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const container_global_1 = __importDefault(require("../containers/container.global"));
 const wallet_validators_1 = require("../middlewares/validators/wallet.validators");
-const walletController = container_global_1.default.resolve("WalletController");
-const authMiddleware = container_global_1.default.resolve("AuthMiddleware");
+const walletController = container_global_1.default.resolve('WalletController');
+const authMiddleware = container_global_1.default.resolve('AuthMiddleware');
 const walletRoutes = express_1.default.Router();
 /**
  * @swagger
@@ -71,7 +71,7 @@ walletRoutes.use(authMiddleware.authProtect);
  *         description: Some internal server error
  *
  */
-walletRoutes.get("/", authMiddleware.authRestrictTo(["superadmin"]), walletController.getWallets.bind(walletController));
+walletRoutes.get('/', authMiddleware.authRestrictTo(['superadmin']), walletController.getWallets.bind(walletController));
 /**
  * @swagger
  * tags:
@@ -102,7 +102,7 @@ walletRoutes.get("/", authMiddleware.authRestrictTo(["superadmin"]), walletContr
  *         description: Some internal server error
  *
  */
-walletRoutes.get("/:id", walletController.getWallet.bind(walletController));
+walletRoutes.get('/:id', walletController.getWallet.bind(walletController));
 /**
  * @swagger
  * tags:
@@ -133,7 +133,7 @@ walletRoutes.get("/:id", walletController.getWallet.bind(walletController));
  *         description: Some internal server error
  *
  */
-walletRoutes.patch("/:id/deactivate", walletController.deactivateWallet.bind(walletController));
+walletRoutes.patch('/:id/deactivate', walletController.deactivateWallet.bind(walletController));
 /**
  * @swagger
  * tags:
@@ -164,7 +164,7 @@ walletRoutes.patch("/:id/deactivate", walletController.deactivateWallet.bind(wal
  *         description: Some internal server error
  *
  */
-walletRoutes.patch("/:id/activate", walletController.activateWallet.bind(walletController));
+walletRoutes.patch('/:id/activate', walletController.activateWallet.bind(walletController));
 /**
  * @swagger
  * tags:
@@ -203,7 +203,7 @@ walletRoutes.patch("/:id/activate", walletController.activateWallet.bind(walletC
  *         description: Some internal server error
  *
  */
-walletRoutes.post("/:id/fund", wallet_validators_1.validateFund, walletController.fundWallet.bind(walletController));
+walletRoutes.post('/:id/fund', wallet_validators_1.validateFund, walletController.fundWallet.bind(walletController));
 /**
  * @swagger
  * tags:
@@ -246,7 +246,7 @@ walletRoutes.post("/:id/fund", wallet_validators_1.validateFund, walletControlle
  *         description: Some internal server error
  *
  */
-walletRoutes.post("/:id/transfer", wallet_validators_1.validateTransferFund, walletController.transferFunds.bind(walletController));
+walletRoutes.post('/:id/transfer', wallet_validators_1.validateTransferFund, walletController.transferFunds.bind(walletController));
 /**
  * @swagger
  * tags:
@@ -285,5 +285,5 @@ walletRoutes.post("/:id/transfer", wallet_validators_1.validateTransferFund, wal
  *         description: Some internal server error
  *
  */
-walletRoutes.post("/:id/withdraw", wallet_validators_1.validateFund, walletController.withdrawFunds.bind(walletController));
+walletRoutes.post('/:id/withdraw', wallet_validators_1.validateFund, walletController.withdrawFunds.bind(walletController));
 exports.default = walletRoutes;
