@@ -1,0 +1,43 @@
+name: Continous Integration and Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install Dependencies
+      run: make install
+
+    - name: Run ESLint
+      run: npm run lint 
+
+    # - name: Run Test
+    #   run: make test
+
+    - name: Build Docker Image
+      run: make build
+
+    - name: Login to Docker Hub
+      if: success()
+      run: echo ${{secrets.DOCKER_PASSWORD}} | docker login -u ${{secrets.DOCKER_USERNAME}} --password-stdin
+
+    - name: Push Docker image to registry
+      if: success()
+      run: |
+        docker tag demo-credit-wallet:latest ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REGISTRY}}:latest
+        docker push ${{secrets.DOCKER_USERNAME}}/${{secrets.DOCKER_REGISTRY}}:latest
+
+
