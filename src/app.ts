@@ -18,6 +18,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import logger from './logger';
 import userRoute from './routes/user.routes';
 import usersRoute from './routes/users.routes';
+import walletsRoutes from './routes/wallets.routes';
 
 const app = express();
 app.use(cors());
@@ -107,7 +108,9 @@ app.use(
 app.use('/v1/api/auth', authRoutes);
 app.use('/v1/api/profile', userRoute);
 app.use('/v1/api/users', usersRoute);
-app.use('/v1/api/wallets', walletRoutes);
+app.use('/v1/api/wallet', walletRoutes);
+app.use('/v1/api/wallets', walletsRoutes);
+
 
 // Log successful API request middleware
 app.use((req: Request, res: Response, next: NextFunction) => {

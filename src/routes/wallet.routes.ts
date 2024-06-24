@@ -89,15 +89,9 @@ walletRoutes.get(
  * tags:
  *   name: Wallet
  *   description: The wallet API endpoints
- * /v1/api/wallets/{id}:
+ * /v1/api/wallet:
  *   get:
  *     summary: Get a wallet details
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: number
- *         description: The wallet id. e.g 1,2,3,4
  *     tags: [Wallet]
  *     responses:
  *       200:
@@ -114,22 +108,16 @@ walletRoutes.get(
  *         description: Some internal server error
  *
  */
-walletRoutes.get('/:id', walletController.getWallet.bind(walletController));
+walletRoutes.get('/', walletController.getWallet.bind(walletController));
 
 /**
  * @swagger
  * tags:
  *   name: Wallet
  *   description: The wallet API endpoints
- * /v1/api/wallets/{id}/deactivate:
+ * /v1/api/wallet/deactivate:
  *   patch:
  *     summary: Deactivate your wallet
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: number
- *         description: The wallet id. e.g 1,2,3,4
  *     tags: [Wallet]
  *     responses:
  *       201:
@@ -147,7 +135,7 @@ walletRoutes.get('/:id', walletController.getWallet.bind(walletController));
  *
  */
 walletRoutes.patch(
-  '/:id/deactivate',
+  '/deactivate',
   walletController.deactivateWallet.bind(walletController)
 );
 
@@ -156,15 +144,9 @@ walletRoutes.patch(
  * tags:
  *   name: Wallet
  *   description: The wallet API endpoints
- * /v1/api/wallets/{id}/activate:
+ * /v1/api/wallet/activate:
  *   patch:
  *     summary: Activate your wallet
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: number
- *         description: The wallet id. e.g 1,2,3,4
  *     tags: [Wallet]
  *     responses:
  *       201:
@@ -182,7 +164,7 @@ walletRoutes.patch(
  *
  */
 walletRoutes.patch(
-  '/:id/activate',
+  '/activate',
   walletController.activateWallet.bind(walletController)
 );
 
@@ -191,15 +173,9 @@ walletRoutes.patch(
  * tags:
  *   name: Wallet
  *   description: The wallet API endpoints
- * /v1/api/wallets/{id}/fund:
+ * /v1/api/wallet/fund:
  *   post:
  *     summary: Fund a wallet
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: number
- *         description: The wallet id. e.g 1,2,3,4
  *     tags: [Wallet]
  *     requestBody:
  *       required: true
@@ -225,7 +201,7 @@ walletRoutes.patch(
  *
  */
 walletRoutes.post(
-  '/:id/fund',
+  '/fund',
   validateFund,
   walletController.fundWallet.bind(walletController)
 );
@@ -235,15 +211,9 @@ walletRoutes.post(
  * tags:
  *   name: Wallet
  *   description: The wallet API endpoints
- * /v1/api/wallets/{id}/transfer:
+ * /v1/api/wallet/transfer:
  *   post:
  *     summary: Transfer from wallet
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: number
- *         description: The wallet id. e.g 1,2,3,4
  *     tags: [Wallet]
  *     requestBody:
  *       required: true
@@ -273,7 +243,7 @@ walletRoutes.post(
  *
  */
 walletRoutes.post(
-  '/:id/transfer',
+  '/transfer',
   validateTransferFund,
   walletController.transferFunds.bind(walletController)
 );
@@ -283,15 +253,9 @@ walletRoutes.post(
  * tags:
  *   name: Wallet
  *   description: The wallet API endpoints
- * /v1/api/wallets/{id}/withdraw:
+ * /v1/api/wallet/withdraw:
  *   post:
  *     summary: Withdraw from a wallet
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: number
- *         description: The wallet id. e.g 1,2,3,4
  *     tags: [Wallet]
  *     requestBody:
  *       required: true
@@ -317,7 +281,7 @@ walletRoutes.post(
  *
  */
 walletRoutes.post(
-  '/:id/withdraw',
+  '/withdraw',
   validateFund,
   walletController.withdrawFunds.bind(walletController)
 );

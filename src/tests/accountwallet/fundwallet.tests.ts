@@ -22,7 +22,7 @@ describe('Fund wallet test cases', () => {
       password: 'Passsword123#',
     });
     const user1 = await request(server).post('/v1/api/auth/login').send({
-      username: 'walletuser',
+      username: 'walletuser1',
       password: 'Passsword123#',
     });
     await request(server)
