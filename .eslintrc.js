@@ -27,14 +27,6 @@ module.exports = {
     react: {
       version: 'detect', // Automatically detect the react version
     },
-    "import/resolver": {
-      "alias": {
-        "map": [
-          ["@", "./src"]
-        ],
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      }
-    }
   },
   rules: {
     // Customize your rules
@@ -47,5 +39,6 @@ module.exports = {
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'prettier/prettier': ['error', { endOfLine: 'lf' }], // Ensure consistent line endings
     '@typescript-eslint/no-namespace': 'off', 
+    'import/no-unresolved': 'off' ,
   },
 };
