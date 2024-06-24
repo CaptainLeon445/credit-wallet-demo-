@@ -1,5 +1,5 @@
 module.exports = {
-  parser: '@typescript-eslint/parser', // Specifies the ESLint parser
+  parser: '@typescript-eslint/parser', 
   extends: [
     'airbnb-typescript',
     'plugin:@typescript-eslint/recommended',
@@ -9,7 +9,7 @@ module.exports = {
     'plugin:jsx-a11y/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:prettier/recommended' // Prettier plugin for formatting
+    'plugin:prettier/recommended'
   ],
   plugins: [
     '@typescript-eslint',
@@ -19,25 +19,24 @@ module.exports = {
     'react-hooks'
   ],
   parserOptions: {
-    ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
-    sourceType: 'module', // Allows for the use of imports
-    project: './tsconfig.json' // Specify it only for TypeScript projects
+    ecmaVersion: 2020,
+    sourceType: 'module', 
+    project: './tsconfig.json'
   },
   settings: {
     react: {
-      version: 'detect', // Automatically detect the react version
+      version: 'detect',
     },
   },
   rules: {
-    // Customize your rules
-    'react/react-in-jsx-scope': 'off', // For React 17+
+    'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/prefer-default-export': 'off',
     '@typescript-eslint/no-explicit-any': 'off', 
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
-    'prettier/prettier': ['error', { endOfLine: 'lf' }], // Ensure consistent line endings
+    'prettier/prettier': ['error', { endOfLine: 'lf' }],
     '@typescript-eslint/no-namespace': 'off', 
     'import/no-unresolved': 'off' ,
   },
