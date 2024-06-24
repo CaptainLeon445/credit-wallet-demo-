@@ -7,110 +7,129 @@ const supertest_1 = __importDefault(require("supertest"));
 const server_1 = __importDefault(require("../../server"));
 describe('Transfer funds through wallets test cases', () => {
     let id;
+    let aid;
+    let deactivatedId;
     let token;
+    let deactivatedToken;
+    let deactivatedWallet;
     beforeAll(async () => {
-        const res = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
+        await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
             username: 'walletuser',
             email: 'walletuser@mail.io',
-            password: 'password113',
+            password: 'Password113#',
         });
         const user = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/login').send({
             username: 'walletuser',
-            password: 'password113',
+            password: 'Password113#',
         });
-        id = user.body.id;
-        token = user.body.accessToke;
-    });
-    it('should transfer fund to another user', async () => {
-        const user = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
+        const user2 = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
             username: 'mrchris2',
             email: 'mrchris2@mail.uk',
             password: 'password123',
         });
-        const toUid = user.body.id;
-        await (0, supertest_1.default)(server_1.default).post('/v1/api/wallet/fund').send({
+        await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
+            username: 'mrchrisdev',
+            email: 'mrchrisv@mail.uk',
+            password: 'password123',
+        });
+        const user3 = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/login').send({
+            username: 'mrchrisdev',
+            password: 'Password113#',
+        });
+        await (0, supertest_1.default)(server_1.default)
+            .post('/v1/api/account/deactivate')
+            .set('Authorization', `Bearer ${user3.body.accessToken}`);
+        await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
+            username: 'mrchrisdel',
+            email: 'mrchris2l@mail.uk',
+            password: 'password123',
+        });
+        const user4 = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/login').send({
+            username: 'mrchrisdel',
+            password: 'Password113#',
+        });
+        await (0, supertest_1.default)(server_1.default)
+            .post('/v1/api/account/deactivate')
+            .set('Authorization', `Bearer ${user4.body.accessToken}`);
+        await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
+            username: 'mrchrisdelw',
+            email: 'mrchris2lw@mail.uk',
+            password: 'password123',
+        });
+        const user5 = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/login').send({
+            username: 'mrchrisdelw',
+            password: 'Password113#',
+        });
+        await (0, supertest_1.default)(server_1.default)
+            .post('/v1/api/wallets/deactivate')
+            .set('Authorization', `Bearer ${user5.body.accessToken}`);
+        id = user.body.id;
+        aid = user2.body.id;
+        deactivatedId = user3.body.id;
+        deactivatedToken = user4.body.accessToken;
+        deactivatedWallet = user5.body.accessToken;
+        token = user.body.accessToken;
+    });
+    it('should transfer fund to another user', async () => {
+        await (0, supertest_1.default)(server_1.default)
+            .set('Authorization', `Bearer ${token}`)
+            .post('/v1/api/wallet/fund')
+            .send({
             id,
             amount: 100,
         });
-        const res = await (0, supertest_1.default)(server_1.default).post('/v1/api/wallet/transfer').send({
-            fromUid: id,
-            toUid,
+        const res = await (0, supertest_1.default)(server_1.default)
+            .set('Authorization', `Bearer ${token}`)
+            .post('/v1/api/wallet/transfer')
+            .send({
+            receiverWalletId: aid,
             amount: 50,
         });
         expect(res.statusCode).toEqual(201);
         expect(res.body).toHaveProperty('balance', 50);
     });
     it('should transfer fund to another user from inactive account', async () => {
-        const user = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
-            username: 'mrchris22',
-            email: 'mrchris22@mail.uk',
-            password: 'password123',
-        });
-        const toUid = user.body.id;
-        await (0, supertest_1.default)(server_1.default).post('/v1/api/wallet/fund').send({
-            id: aid,
-            amount: 100,
-        });
-        await (0, supertest_1.default)(server_1.default).post('/v1/api/profile/deactivate');
-        const res = await (0, supertest_1.default)(server_1.default).post('/v1/api/wallet/transfer').send({
-            fromUid: aid,
-            toUid,
+        const res = await (0, supertest_1.default)(server_1.default)
+            .set('Authorization', `Bearer ${deactivatedToken}`)
+            .post('/v1/api/wallet/transfer')
+            .send({
+            receiverWalletId: aid,
             amount: 50,
         });
         expect(res.statusCode).toEqual(403);
-        expect(res.body).toHaveProperty('status', "fail");
+        expect(res.body).toHaveProperty('status', 'fail');
     });
     it('should transfer fund to user with no record in the db', async () => {
-        await (0, supertest_1.default)(server_1.default).post('/v1/api/wallet/fund').send({
-            id: aid,
-            amount: 100,
-        });
-        const res = await (0, supertest_1.default)(server_1.default).post('/v1/api/wallet/transfer').send({
-            fromUid: aid,
-            toUid: 88,
+        const res = await (0, supertest_1.default)(server_1.default)
+            .set('Authorization', `Bearer ${token}`)
+            .post('/v1/api/wallet/transfer')
+            .send({
+            receiverWalletId: 88,
             amount: 50,
         });
         expect(res.statusCode).toEqual(404);
-        expect(res.body).toHaveProperty('status', "fail");
+        expect(res.body).toHaveProperty('status', 'fail');
     });
     it('should transfer fund to inactive wallet', async () => {
-        const user = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
-            username: 'mrchris222',
-            email: 'mrchris222@mail.uk',
-            password: 'password123',
-        });
-        const toUid = user.body.id;
-        await (0, supertest_1.default)(server_1.default).post('/v1/api/wallet/fund').send({
-            id: aid,
-            amount: 100,
-        });
-        await (0, supertest_1.default)(server_1.default).post(`/v1/api/wallets/${toUid}/deactivate`);
-        const res = await (0, supertest_1.default)(server_1.default).post('/v1/api/wallet/transfer').send({
-            fromUid: aid,
-            toUid,
+        const res = await (0, supertest_1.default)(server_1.default)
+            .set('Authorization', `Bearer ${token}`)
+            .post('/v1/api/wallet/transfer')
+            .send({
+            receiverWalletId: deactivatedId,
             amount: 50,
         });
         expect(res.statusCode).toEqual(403);
-        expect(res.body).toHaveProperty('status', "fail");
+        expect(res.body).toHaveProperty('status', 'fail');
     });
     it('should transfer fund from inactive wallet', async () => {
-        const user = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
-            username: 'mrchris2222',
-            email: 'mrchris2222@mail.uk',
-            password: 'password123',
-        });
-        const toUid = user.body.id;
-        await (0, supertest_1.default)(server_1.default).post('/v1/api/wallet/fund').send({
-            id: aid,
-            amount: 100,
-        });
-        await (0, supertest_1.default)(server_1.default).post(`/v1/api/wallets/{id}/deactivate`);
-        const res = await (0, supertest_1.default)(server_1.default).post('/v1/api/wallet/transfer').send({
-            fromUid: aid,
-            toUid,
+        const res = await (0, supertest_1.default)(server_1.default)
+            .set('Authorization', `Bearer ${deactivatedWallet}`)
+            .post('/v1/api/wallet/transfer')
+            .send({
+            receiverWalletId: aid,
             amount: 50,
         });
         expect(res.statusCode).toEqual(403);
-        expect(res.body).toHaveProperty('status', "fail");
+        expect(res.body).toHaveProperty('status', 'fail');
     });
 });

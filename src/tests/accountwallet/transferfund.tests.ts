@@ -3,115 +3,137 @@ import server from '../../server';
 
 describe('Transfer funds through wallets test cases', () => {
   let id: number;
+  let aid: number;
+  let deactivatedId: number;
   let token: string;
+  let deactivatedToken: string;
+  let deactivatedWallet: string;
+
   beforeAll(async () => {
-    const res = await request(server).post('/v1/api/auth/register').send({
+    await request(server).post('/v1/api/auth/register').send({
       username: 'walletuser',
       email: 'walletuser@mail.io',
-      password: 'password113',
+      password: 'Password113#',
     });
     const user = await request(server).post('/v1/api/auth/login').send({
       username: 'walletuser',
-      password: 'password113',
+      password: 'Password113#',
     });
-    id = user.body.id;
-    token = user.body.accessToke;
-  });
-
-  it('should transfer fund to another user', async () => {
-    const user = await request(server).post('/v1/api/auth/register').send({
+    const user2 = await request(server).post('/v1/api/auth/register').send({
       username: 'mrchris2',
       email: 'mrchris2@mail.uk',
       password: 'password123',
     });
-    const toUid = user.body.id;
-    await request(server).post('/v1/api/wallet/fund').send({
-      id,
-      amount: 100,
+    await request(server).post('/v1/api/auth/register').send({
+      username: 'mrchrisdev',
+      email: 'mrchrisv@mail.uk',
+      password: 'password123',
     });
-    const res = await request(server).post('/v1/api/wallet/transfer').send({
-      fromUid: id,
-      toUid,
-      amount: 50,
+    const user3 = await request(server).post('/v1/api/auth/login').send({
+      username: 'mrchrisdev',
+      password: 'Password113#',
     });
+    await request(server)
+      .post('/v1/api/account/deactivate')
+      .set('Authorization', `Bearer ${user3.body.accessToken}`);
+    await request(server).post('/v1/api/auth/register').send({
+      username: 'mrchrisdel',
+      email: 'mrchris2l@mail.uk',
+      password: 'password123',
+    });
+    const user4 = await request(server).post('/v1/api/auth/login').send({
+      username: 'mrchrisdel',
+      password: 'Password113#',
+    });
+    await request(server)
+      .post('/v1/api/account/deactivate')
+      .set('Authorization', `Bearer ${user4.body.accessToken}`);
+
+    await request(server).post('/v1/api/auth/register').send({
+      username: 'mrchrisdelw',
+      email: 'mrchris2lw@mail.uk',
+      password: 'password123',
+    });
+    const user5 = await request(server).post('/v1/api/auth/login').send({
+      username: 'mrchrisdelw',
+      password: 'Password113#',
+    });
+    await request(server)
+      .post('/v1/api/wallets/deactivate')
+      .set('Authorization', `Bearer ${user5.body.accessToken}`);
+
+    id = user.body.id;
+    aid = user2.body.id;
+    deactivatedId = user3.body.id;
+    deactivatedToken = user4.body.accessToken;
+    deactivatedWallet = user5.body.accessToken;
+    token = user.body.accessToken;
+  });
+
+  it('should transfer fund to another user', async () => {
+    await request(server)
+      .set('Authorization', `Bearer ${token}`)
+      .post('/v1/api/wallet/fund')
+      .send({
+        id,
+        amount: 100,
+      });
+    const res = await request(server)
+      .set('Authorization', `Bearer ${token}`)
+      .post('/v1/api/wallet/transfer')
+      .send({
+        receiverWalletId: aid,
+        amount: 50,
+      });
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('balance', 50);
   });
 
   it('should transfer fund to another user from inactive account', async () => {
-    const user = await request(server).post('/v1/api/auth/register').send({
-      username: 'mrchris22',
-      email: 'mrchris22@mail.uk',
-      password: 'password123',
-    });
-    const toUid = user.body.id;
-    await request(server).post('/v1/api/wallet/fund').send({
-      id: aid,
-      amount: 100,
-    });
-    await request(server).post('/v1/api/profile/deactivate');
-    const res = await request(server).post('/v1/api/wallet/transfer').send({
-      fromUid: aid,
-      toUid,
-      amount: 50,
-    });
+    const res = await request(server)
+      .set('Authorization', `Bearer ${deactivatedToken}`)
+      .post('/v1/api/wallet/transfer')
+      .send({
+        receiverWalletId: aid,
+        amount: 50,
+      });
     expect(res.statusCode).toEqual(403);
-    expect(res.body).toHaveProperty('status', "fail");
+    expect(res.body).toHaveProperty('status', 'fail');
   });
 
   it('should transfer fund to user with no record in the db', async () => {
-    await request(server).post('/v1/api/wallet/fund').send({
-      id: aid,
-      amount: 100,
-    });
-    const res = await request(server).post('/v1/api/wallet/transfer').send({
-      fromUid: aid,
-      toUid: 88,
-      amount: 50,
-    });
+    const res = await request(server)
+      .set('Authorization', `Bearer ${token}`)
+      .post('/v1/api/wallet/transfer')
+      .send({
+        receiverWalletId: 88,
+        amount: 50,
+      });
     expect(res.statusCode).toEqual(404);
-    expect(res.body).toHaveProperty('status', "fail");
+    expect(res.body).toHaveProperty('status', 'fail');
   });
 
   it('should transfer fund to inactive wallet', async () => {
-    const user = await request(server).post('/v1/api/auth/register').send({
-      username: 'mrchris222',
-      email: 'mrchris222@mail.uk',
-      password: 'password123',
-    });
-    const toUid = user.body.id;
-    await request(server).post('/v1/api/wallet/fund').send({
-      id: aid,
-      amount: 100,
-    });
-    await request(server).post(`/v1/api/wallets/${toUid}/deactivate`);
-    const res = await request(server).post('/v1/api/wallet/transfer').send({
-      fromUid: aid,
-      toUid,
-      amount: 50,
-    });
+    const res = await request(server)
+      .set('Authorization', `Bearer ${token}`)
+      .post('/v1/api/wallet/transfer')
+      .send({
+        receiverWalletId: deactivatedId,
+        amount: 50,
+      });
     expect(res.statusCode).toEqual(403);
-    expect(res.body).toHaveProperty('status', "fail");
+    expect(res.body).toHaveProperty('status', 'fail');
   });
 
   it('should transfer fund from inactive wallet', async () => {
-    const user = await request(server).post('/v1/api/auth/register').send({
-      username: 'mrchris2222',
-      email: 'mrchris2222@mail.uk',
-      password: 'password123',
-    });
-    const toUid = user.body.id;
-    await request(server).post('/v1/api/wallet/fund').send({
-      id: aid,
-      amount: 100,
-    });
-    await request(server).post(`/v1/api/wallets/{id}/deactivate`);
-    const res = await request(server).post('/v1/api/wallet/transfer').send({
-      fromUid: aid,
-      toUid,
-      amount: 50,
-    });
+    const res = await request(server)
+      .set('Authorization', `Bearer ${deactivatedWallet}`)
+      .post('/v1/api/wallet/transfer')
+      .send({
+        receiverWalletId: aid,
+        amount: 50,
+      });
     expect(res.statusCode).toEqual(403);
-    expect(res.body).toHaveProperty('status', "fail");
+    expect(res.body).toHaveProperty('status', 'fail');
   });
 });
