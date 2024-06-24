@@ -13,7 +13,7 @@ describe('Auth Endpoints', () => {
             password: 'password123',
         });
         expect(res.statusCode).toEqual(201);
-        expect(res.body).toHaveProperty('id');
+        expect(res.body).toHaveProperty('status', 'success');
     });
     it('should not create a user with existing email', async () => {
         await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
@@ -27,12 +27,12 @@ describe('Auth Endpoints', () => {
             password: 'password123',
         });
         expect(res.statusCode).toEqual(409);
-        expect(res.body).toHaveProperty('fail');
+        expect(res.body).toHaveProperty('status', 'fail');
     });
     it('should not create a user with existing username', async () => {
         await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
-            username: 'mrchris1',
-            email: 'mrchris1@mail.uk',
+            username: 'mrchris4',
+            email: 'mrchris4@mail.uk',
             password: 'password123',
         });
         const res = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
@@ -41,15 +41,15 @@ describe('Auth Endpoints', () => {
             password: 'password123',
         });
         expect(res.statusCode).toEqual(409);
-        expect(res.body).toHaveProperty('fail');
+        expect(res.body).toHaveProperty('status', 'fail');
     });
     it('should not create a user with invalid password', async () => {
         const res = await (0, supertest_1.default)(server_1.default).post('/v1/api/auth/register').send({
-            username: 'mrchris4',
-            email: 'mrchris4@mail.uk',
+            username: 'mrchris44',
+            email: 'mrchris44@mail.uk',
             password: 'paword123',
         });
         expect(res.statusCode).toEqual(400);
-        expect(res.body).toHaveProperty('fail');
+        expect(res.body).toHaveProperty('status', 'fail');
     });
 });
