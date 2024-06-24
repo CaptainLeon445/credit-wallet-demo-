@@ -4,7 +4,7 @@ local
 src/Api-Endpoints.code-workspace
 .vscode
 migrations
-config
+
 # Tests
 __tests__
 

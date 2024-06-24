@@ -1,5 +1,6 @@
 import db from '../config/db.connection';
 
+
 const walletTable = async () => {
   await db.schema.createTable('wallets', (table) => {
     table.increments('id').primary();
