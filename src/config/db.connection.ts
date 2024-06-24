@@ -9,4 +9,5 @@ const db = knex({
     database: process.env.DATABASE_NAME!,
   },
 }); 
+
 export default db;
