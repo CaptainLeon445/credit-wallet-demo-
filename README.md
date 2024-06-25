@@ -82,6 +82,6 @@ Before you begin, ensure you have met the following requirements:
 
 ### DOCUMENTATION
 
-  * The API documentation is available on [credit-wallet-API-endpoints] (https//:christopher-ifeoluwa-oni-lendsqr-be-test.onrender.com/api-docs/)
+  * The API documentation is available on [credit-wallet-API-endpoints] (https://christopher-ifeoluwa-oni-lendsqr-be-test.onrender.com/api-docs)
 
   
