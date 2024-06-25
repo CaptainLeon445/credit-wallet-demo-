@@ -1,17 +1,23 @@
 install:
 	npm ci 
 
+install-dep:
+	npm install
+
+dev:
+	npm run dev
+
+lint:
+	npm lint
+
+lint-fix:
+	npm lint --fix
+
+
+
 test:
 	npm test
 
 build:
 	docker build -t demo-credit-wallet:latest .
 
-docker-login:
-	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin "${DOCKER_REGISTRY}"
-
-docker-push:
-	docker push "${secrets.DOCKER_REGISTRY}/simple-app"
-
-deploy:
-	docker-compose -f docker-compose.yml up --build	
