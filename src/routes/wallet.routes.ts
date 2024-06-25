@@ -72,31 +72,6 @@ walletRoutes.use(authMiddleware.authProtect);
  * tags:
  *   name: User Wallet
  *   description: The user wallet API endpoints
- * /v1/api/wallets:
- *   get:
- *     summary: Get all the available wallets
- *     tags: [User Wallet]
- *     responses:
- *       200:
- *         description: Wallets returned successfully.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/default'
- *       500:
- *         description: Some internal server error
- *
- */
-walletRoutes.get(
-  '/',
-  walletController.getWallets.bind(walletController)
-);
-
-/**
- * @swagger
- * tags:
- *   name: User Wallet
- *   description: The user wallet API endpoints
  * /v1/api/wallet:
  *   get:
  *     summary: Get your wallet details

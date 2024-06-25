@@ -21,7 +21,8 @@ const logger_1 = __importDefault(require("./logger"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const users_routes_1 = __importDefault(require("./routes/users.routes"));
 const wallets_routes_1 = __importDefault(require("./routes/wallets.routes"));
-const transactions_routes_1 = __importDefault(require("./routes/transactions.routes"));
+const userTransaction_routes_1 = __importDefault(require("./routes/userTransaction.routes"));
+const allTransaction_routes_1 = __importDefault(require("./routes/allTransaction.routes"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
@@ -93,7 +94,8 @@ app.use('/v1/api/profile', user_routes_1.default);
 app.use('/v1/api/users', users_routes_1.default);
 app.use('/v1/api/wallet', wallet_routes_1.default);
 app.use('/v1/api/wallets', wallets_routes_1.default);
-app.use('/v1/api/transactions', transactions_routes_1.default);
+app.use('/v1/api/transactions/all', allTransaction_routes_1.default);
+app.use('/v1/api/transactions', userTransaction_routes_1.default);
 // Log successful API request middleware
 app.use((req, res, next) => {
     res.on('finish', () => {

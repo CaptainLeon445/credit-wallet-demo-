@@ -112,7 +112,7 @@ walletsRoutes.get('/', walletController.getWallets.bind(walletController));
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/details'
+ *               $ref: '#/components/schemas/default'
  *       403:
  *         description: User is inactive
  *       404:

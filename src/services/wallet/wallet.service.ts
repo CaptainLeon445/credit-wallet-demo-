@@ -60,8 +60,6 @@ export class WalletService {
       const trx = await db.transaction();
       const receiver = await WalletUtils.getWalletById(receiverWalletId!);
       const sender = await WalletUtils.getWalletById(senderWalletId!);
-      if (sender.balance < amount)
-        return next(new AppError('Insufficient balance', 400));
       if (!receiver)
         return next(new AppError("Receiver's wallet not found", 404));
       if (!receiver.active)
@@ -70,6 +68,8 @@ export class WalletService {
         return next(new AppError("Sender's wallet is not found", 404));
       if (!sender.active)
         return next(new AppError("Sender's wallet is inactive", 403));
+      if (sender.balance < amount)
+        return next(new AppError('Insufficient balance', 400));
       const [result] = await trx('wallets')
         .where({ id: senderWalletId! })
         .decrement('balance', amount)
