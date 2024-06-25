@@ -10,6 +10,7 @@ A comprehensive documentation for building server-side application for credit wa
 - [Features](#features)
 - [Technologies](#technologies)
 - [Prerequisites](#prerequisites)
+- [Entities-Relationship Diagram](#entities-relationship-diagram)
 - [Getting Started](#getting-started)
   - [Installation](#installation)
   - [Running the Development Server](#running-the-development-server)
@@ -42,6 +43,7 @@ Before you begin, ensure you have met the following requirements:
 - Node.js and npm installed on your machine.
 - Basic knowledge of TypeScript and Express.js.
 
+## Entities-Relationship Diagram
 ![Alt text](https://res.cloudinary.com/dwtnlfrc5/image/upload/v1719322035/credit-wallet-system_1_hxgw5q.png)
 
 ## Getting Started
