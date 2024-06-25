@@ -1,15 +1,8 @@
-import knex from 'knex';
+import db from '../config/db.connection';
 import { transactionTable } from '../models/transaction.model';
+import { userTable } from '../models/user.model';
+import { walletTable } from '../models/wallet.model';
 
-const db = knex({
-  client: 'pg',
-  connection: {
-    host: process.env.DATABASE_HOST!,
-    user: process.env.DATABASE_USERNAME!,
-    password: process.env.DATABASE_PASSWORD!,
-    database: process.env.DATABASE_NAME!,
-  },
-});
 
 export const truncateAllTables = async () => {
   try {
@@ -34,7 +27,13 @@ export const truncateAllTables = async () => {
 
 
 export const createTables = async () => {
-  await db.schema.dropTableIfExists('transactions'); // Drop existing table
+  await db.schema.dropTableIfExists('users');
+  await db.schema.dropTableIfExists('wallets');
+  await db.schema.dropTableIfExists('transactions');
+
+  await userTable();
+  await walletTable();
   await transactionTable();
+
 };
 

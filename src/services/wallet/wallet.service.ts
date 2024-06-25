@@ -103,7 +103,7 @@ export class WalletService {
       return next(new AppError(error.message, error.status));
     }
   }
-
+  
   public async withdrawFunds(walletDTO: FundDTO, next: NextFunction) {
     const { userWalletId, amount } = walletDTO;
     const wallet = await WalletUtils.getWalletById(userWalletId);

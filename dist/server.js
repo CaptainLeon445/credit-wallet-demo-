@@ -20,7 +20,6 @@ const port = parseInt(process.env.PORT, values_constant_1.BASE_10) || 3001;
 //   })
 const server = app_1.default.listen(port, async () => {
     try {
-        console.info(`Demo credit wallet database connected successfully.`);
         console.info(`Demo credit wallet server running on port ${port}`);
     }
     catch (error) {
