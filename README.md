@@ -1,6 +1,6 @@
 # Credit wallet demo application
-This repository contains all the business logics and API endpoints for the credit wallet demo application.
 
+This repository contains all the business logics and API endpoints for the credit wallet demo application.
 
 A comprehensive documentation for building server-side application for credit wallet demo application with Express.js, Postgresql, Knex and TypeScript.
 
@@ -14,9 +14,6 @@ A comprehensive documentation for building server-side application for credit wa
   - [Installation](#installation)
   - [Running the Development Server](#running-the-development-server)
 - [DOCUMENTATION](#documentation)
-  
-
-
 
 ## Introduction
 
@@ -45,8 +42,9 @@ Before you begin, ensure you have met the following requirements:
 - Node.js and npm installed on your machine.
 - Basic knowledge of TypeScript and Express.js.
 <div>
-<img src="https://media.giphy.com/media/M9gbBd9nbDrOTu1Mqx/giphy.gif" width="100"/> 
+<img src="https://dbdesigner.page.link/iKmJD3AGcEShX3aw6" width="100"/> 
 </div>
+
 ## Getting Started
 
 ### Installation
@@ -55,11 +53,12 @@ Before you begin, ensure you have met the following requirements:
    ```bash
    git clone https://github.com/CaptainLeon445/credit-wallet-demo-.git
    cd credit-wallet-demo-
-   
+
+   ```
 2. Install dependencies
    ```bash
    npm install
-
+   ```
 
 ### Running the Development Server
 
@@ -68,22 +67,25 @@ Before you begin, ensure you have met the following requirements:
    ```bash
    npm run dev
 
+   ```
+
 2. Open Browser or Postman
 
-  * Open your browser to [http://localhost:3000](http://localhost:3000)
-  * Invoke the `/` endpoint
-  ```shell
-  curl http://localhost:3000/
-  ```
-  * The `/api-docs` endpoint is for the swagger UI
-  ```shell
-  curl http://localhost:3000/api-docs
-  ```
- 
-  * Check the routes files to get the other resource
+- Open your browser to [http://localhost:3000](http://localhost:3000)
+- Invoke the `/` endpoint
+
+```shell
+curl http://localhost:3000/
+```
+
+- The `/api-docs` endpoint is for the swagger UI
+
+```shell
+curl http://localhost:3000/api-docs
+```
+
+- Check the routes files to get the other resource
 
 ### DOCUMENTATION
 
-  * The API documentation is available on [credit-wallet-API-endpoints] (https://christopher-ifeoluwa-oni-lendsqr-be-test.onrender.com/api-docs)
-
-  
+- The API documentation is available on [credit-wallet-API-endpoints] (https://christopher-ifeoluwa-oni-lendsqr-be-test.onrender.com/api-docs)
