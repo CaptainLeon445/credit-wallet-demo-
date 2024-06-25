@@ -12,9 +12,9 @@ export interface FundWalletDTO {
 }
 
 export interface TransferFundDTO {
-  senderWalletId: number;
-  receiverWalletId: number;
   amount: number;
+  receiverWalletId?: number;
+  senderWalletId?: number;
 }
 
 export interface WithdrawFundDTO {

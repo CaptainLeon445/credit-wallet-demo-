@@ -47,7 +47,13 @@ class WalletController {
                 uid = user.id;
                 walletId = wallet.id;
             }
-            const trxDTA = { ...req.body, uid, walletId };
+            const trxDTA = {
+                ...req.body,
+                uid,
+                walletId,
+                receiverId: uid,
+                senderId: uid,
+            };
             const requestData = {
                 amount: req.body.amount,
                 userWalletId: walletId,
@@ -78,9 +84,10 @@ class WalletController {
             const requestData = req.body;
             const data = await this.walletService.transferFunds(requestData, next);
             if (data) {
-                await this.transactionService.createTransaction(data.senderTrxDTA, next);
-                await this.transactionService.createTransaction(data.receiverTrxDTA, next);
-                await global_utils_1.GlobalUtilities.response(res, 'Transfer successful!', 201, data.result);
+                const sendTrxData = await this.transactionService.createTransaction(data.senderTrxDTA, next);
+                const receiveTrxData = await this.transactionService.createTransaction(data.receiverTrxDTA, next);
+                if (sendTrxData && receiveTrxData)
+                    await global_utils_1.GlobalUtilities.response(res, 'Transfer successful!', 201, data.result);
             }
         });
         this.withdrawFunds = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
@@ -99,7 +106,13 @@ class WalletController {
                 uid = user.id;
                 walletId = wallet.id;
             }
-            const trxDTA = { ...req.body, uid, walletId };
+            const trxDTA = {
+                ...req.body,
+                uid,
+                walletId,
+                receiverId: uid,
+                senderId: uid,
+            };
             req.body.userWalletId = walletId;
             const requestData = req.body;
             const data = await this.walletService.withdrawFunds(requestData, next);

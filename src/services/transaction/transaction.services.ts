@@ -20,8 +20,6 @@ export class TransactionService {
 
   public async getUserTransactions(uid: number, next: NextFunction) {
     const transactions = await TransactionUtils.getTransactionsByUser(uid);
-    if (transactions.length < 1)
-      return next(new AppError('Data not found', 404));
     return transactions;
   }
 

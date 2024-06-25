@@ -62,12 +62,12 @@ walletRoutes.use(authMiddleware.authProtect);
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: User Wallet
+ *   description: The user wallet API endpoints
  * /v1/api/wallets:
  *   get:
  *     summary: Get all the available wallets
- *     tags: [Wallet]
+ *     tags: [User Wallet]
  *     responses:
  *       200:
  *         description: Wallets returned successfully.
@@ -83,12 +83,12 @@ walletRoutes.get('/', walletController.getWallets.bind(walletController));
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: User Wallet
+ *   description: The user wallet API endpoints
  * /v1/api/wallet:
  *   get:
- *     summary: Get a wallet details
- *     tags: [Wallet]
+ *     summary: Get your wallet details
+ *     tags: [User Wallet]
  *     responses:
  *       200:
  *         description: Wallet details returned successfully.
@@ -108,12 +108,12 @@ walletRoutes.get('/', walletController.getWallet.bind(walletController));
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: User Wallet
+ *   description: The user wallet API endpoints
  * /v1/api/wallet/deactivate:
  *   patch:
  *     summary: Deactivate your wallet
- *     tags: [Wallet]
+ *     tags: [User Wallet]
  *     responses:
  *       201:
  *         description: Wallet deactivated successfully.
@@ -133,12 +133,12 @@ walletRoutes.patch('/deactivate', walletController.deactivateWallet.bind(walletC
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: User Wallet
+ *   description: The user wallet API endpoints
  * /v1/api/wallet/activate:
  *   patch:
  *     summary: Activate your wallet
- *     tags: [Wallet]
+ *     tags: [User Wallet]
  *     responses:
  *       201:
  *         description: Wallet activated successfully.
@@ -158,12 +158,12 @@ walletRoutes.patch('/activate', walletController.activateWallet.bind(walletContr
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: User Wallet
+ *   description: The user wallet API endpoints
  * /v1/api/wallet/fund:
  *   post:
- *     summary: Fund a wallet
- *     tags: [Wallet]
+ *     summary: Fund your wallet
+ *     tags: [User Wallet]
  *     requestBody:
  *       required: true
  *       content:
@@ -191,12 +191,12 @@ walletRoutes.post('/fund', wallet_validators_1.validateFundDeposit, walletContro
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: User Wallet
+ *   description: The user wallet API endpoints
  * /v1/api/wallet/transfer:
  *   post:
- *     summary: Transfer from wallet
- *     tags: [Wallet]
+ *     summary: Transfer from your wallet
+ *     tags: [User Wallet]
  *     requestBody:
  *       required: true
  *       content:
@@ -228,12 +228,12 @@ walletRoutes.post('/transfer', wallet_validators_1.validateTransferFund, walletC
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: User Wallet
+ *   description: The user wallet API endpoints
  * /v1/api/wallet/withdraw:
  *   post:
- *     summary: Withdraw from a wallet
- *     tags: [Wallet]
+ *     summary: Withdraw from your wallet
+ *     tags: [User Wallet]
  *     requestBody:
  *       required: true
  *       content:

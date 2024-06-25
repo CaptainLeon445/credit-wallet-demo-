@@ -71,12 +71,12 @@ walletsRoutes.use(authMiddleware.authRestrictTo(['superadmin']));
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: Users wallets
+ *   description: Users wallets API endpoints
  * /v1/api/wallets:
  *   get:
- *     summary: Get all the available wallets
- *     tags: [Wallet]
+ *     summary: Get all the available users wallets
+ *     tags: [Users wallet]
  *     responses:
  *       200:
  *         description: Wallets returned successfully.
@@ -93,19 +93,19 @@ walletsRoutes.get('/', walletController.getWallets.bind(walletController));
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: Users wallets
+ *   description: Users wallets API endpoints
  * /v1/api/wallets/{id}:
  *   get:
- *     summary: Get a wallet details
+ *     summary: Get a user wallet details
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: number
- *         description: The wallet id. e.g 1,2,3,4
+ *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Wallet]
+ *     tags: [Users wallet]
  *     responses:
  *       200:
  *         description: Wallet details returned successfully.
@@ -126,19 +126,19 @@ walletsRoutes.get('/:id', walletController.getWallet.bind(walletController));
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: Users wallets
+ *   description: Users wallets API endpoints
  * /v1/api/wallets/{id}/deactivate:
  *   patch:
- *     summary: Deactivate your wallet
+ *     summary: Deactivate a user wallet
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: number
- *         description: The wallet id. e.g 1,2,3,4
+ *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Wallet]
+ *     tags: [Users wallet]
  *     responses:
  *       201:
  *         description: Wallet deactivated successfully.
@@ -162,19 +162,19 @@ walletsRoutes.patch(
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: Users wallets
+ *   description: Users wallets API endpoints
  * /v1/api/wallets/{id}/activate:
  *   patch:
- *     summary: Activate your wallet
+ *     summary: Activate a user wallet
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: number
- *         description: The wallet id. e.g 1,2,3,4
+ *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Wallet]
+ *     tags: [Users wallet]
  *     responses:
  *       201:
  *         description: Wallet activated successfully.
@@ -198,19 +198,19 @@ walletsRoutes.patch(
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: Users wallets
+ *   description: Users wallets API endpoints
  * /v1/api/wallets/{id}/fund:
  *   post:
- *     summary: Fund a wallet
+ *     summary: Fund a user wallet
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: number
- *         description: The wallet id. e.g 1,2,3,4
+ *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Wallet]
+ *     tags: [Users wallet]
  *     requestBody:
  *       required: true
  *       content:
@@ -243,19 +243,19 @@ walletsRoutes.post(
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: Users wallets
+ *   description: Users wallets API endpoints
  * /v1/api/wallets/{id}/transfer:
  *   post:
- *     summary: Transfer from wallet
+ *     summary: Transfer from a user wallet
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: number
- *         description: The wallet id. e.g 1,2,3,4
+ *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Wallet]
+ *     tags: [Users wallet]
  *     requestBody:
  *       required: true
  *       content:
@@ -292,19 +292,19 @@ walletsRoutes.post(
 /**
  * @swagger
  * tags:
- *   name: Wallet
- *   description: The wallet API endpoints
+ *   name: Users wallets
+ *   description: Users wallets API endpoints
  * /v1/api/wallets/{id}/withdraw:
  *   post:
- *     summary: Withdraw from a wallet
+ *     summary: Withdraw from a user wallet
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: number
- *         description: The wallet id. e.g 1,2,3,4
+ *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Wallet]
+ *     tags: [Users wallet]
  *     requestBody:
  *       required: true
  *       content:

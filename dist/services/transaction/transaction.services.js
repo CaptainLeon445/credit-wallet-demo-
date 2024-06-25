@@ -23,8 +23,6 @@ class TransactionService {
     }
     async getUserTransactions(uid, next) {
         const transactions = await transaction_utils_1.default.getTransactionsByUser(uid);
-        if (transactions.length < 1)
-            return next(new AppError_1.AppError('Data not found', 404));
         return transactions;
     }
     async getTransaction(id, next) {

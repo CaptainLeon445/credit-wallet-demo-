@@ -68,7 +68,13 @@ export default class WalletController {
         uid = user.id;
         walletId = wallet.id;
       }
-      const trxDTA: FundWalletDTO = { ...req.body, uid, walletId };
+      const trxDTA: FundWalletDTO = {
+        ...req.body,
+        uid,
+        walletId,
+        receiverId: uid,
+        senderId: uid,
+      };
       const requestData: FundDTO = {
         amount: req.body.amount,
         userWalletId: walletId,
@@ -111,20 +117,21 @@ export default class WalletController {
       const requestData: TransferFundDTO = req.body;
       const data = await this.walletService.transferFunds(requestData, next);
       if (data) {
-        await this.transactionService.createTransaction(
+        const sendTrxData = await this.transactionService.createTransaction(
           data.senderTrxDTA,
           next
         );
-        await this.transactionService.createTransaction(
+        const receiveTrxData = await this.transactionService.createTransaction(
           data.receiverTrxDTA,
           next
         );
-        await GlobalUtilities.response(
-          res,
-          'Transfer successful!',
-          201,
-          data.result
-        );
+        if (sendTrxData && receiveTrxData)
+          await GlobalUtilities.response(
+            res,
+            'Transfer successful!',
+            201,
+            data.result
+          );
       }
     }
   );
@@ -146,7 +153,13 @@ export default class WalletController {
         uid = user.id;
         walletId = wallet.id;
       }
-      const trxDTA = { ...req.body, uid, walletId };
+      const trxDTA = {
+        ...req.body,
+        uid,
+        walletId,
+        receiverId: uid,
+        senderId: uid,
+      };
       req.body.userWalletId = walletId;
       const requestData: FundDTO = req.body;
       const data = await this.walletService.withdrawFunds(requestData, next);

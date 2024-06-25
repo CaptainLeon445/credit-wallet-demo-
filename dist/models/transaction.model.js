@@ -10,6 +10,8 @@ const transactionTable = async () => {
         table.increments('id').primary();
         table.integer('uid').unsigned().notNullable().references('id').inTable('users');
         table.integer('walletId').unsigned().notNullable().references('id').inTable('wallets');
+        table.integer('receiverId').unsigned().notNullable().references('id').inTable('users');
+        table.integer('senderId').unsigned().notNullable().references('id').inTable('users');
         table.decimal('amount', 14, 2).defaultTo(0);
         table.enum('type', ['credit', 'debit']).notNullable();
         table.text('description').defaultTo('');

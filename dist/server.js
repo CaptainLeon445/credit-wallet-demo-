@@ -11,6 +11,13 @@ app_1.default.use((err, req, res, next) => {
     Handler_1.GlobalErrorHandler.handleError(err, req, res, next);
 });
 const port = parseInt(process.env.PORT, values_constant_1.BASE_10) || 3001;
+// createTables()
+//   .then(() => {
+//     console.log('Tables created successfully.');
+//   })
+//   .catch((error) => {
+//     console.error('Error creating tables:', error);
+//   })
 const server = app_1.default.listen(port, async () => {
     try {
         console.info(`Demo credit wallet database connected successfully.`);

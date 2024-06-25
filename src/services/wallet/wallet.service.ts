@@ -58,8 +58,10 @@ export class WalletService {
     const { senderWalletId, receiverWalletId, amount } = walletDTO;
     try {
       const trx = await db.transaction();
-      const receiver = await WalletUtils.getWalletById(receiverWalletId);
-      const sender = await WalletUtils.getWalletById(senderWalletId);
+      const receiver = await WalletUtils.getWalletById(receiverWalletId!);
+      const sender = await WalletUtils.getWalletById(senderWalletId!);
+      if (sender.balance < amount)
+        return next(new AppError('Insufficient balance', 400));
       if (!receiver)
         return next(new AppError("Receiver's wallet not found", 404));
       if (!receiver.active)
@@ -69,7 +71,7 @@ export class WalletService {
       if (!sender.active)
         return next(new AppError("Sender's wallet is inactive", 403));
       const [result] = await trx('wallets')
-        .where({ id: senderWalletId })
+        .where({ id: senderWalletId! })
         .decrement('balance', amount)
         .returning('*');
       await trx('wallets')
@@ -78,16 +80,22 @@ export class WalletService {
         .returning('*');
       await trx.commit();
 
+      delete walletDTO.senderWalletId;
+      delete walletDTO.receiverWalletId;
       const receiverTrxDTA = {
         ...walletDTO,
         type: 'credit',
         uid: receiver.uid,
+        receiverId: receiver.uid,
+        senderId: sender.uid,
         walletId: receiverWalletId,
       };
       const senderTrxDTA = {
         ...walletDTO,
         type: 'debit',
         uid: sender.uid,
+        receiverId: receiver.uid,
+        senderId: sender.uid,
         walletId: senderWalletId,
       };
       return { result, receiverTrxDTA, senderTrxDTA };
@@ -99,6 +107,8 @@ export class WalletService {
   public async withdrawFunds(walletDTO: FundDTO, next: NextFunction) {
     const { userWalletId, amount } = walletDTO;
     const wallet = await WalletUtils.getWalletById(userWalletId);
+    if (wallet.balance < amount)
+      return next(new AppError('Insufficient balance', 400));
     if (!wallet) return next(new AppError('Wallet not found', 404));
     if (!wallet.active) return next(new AppError('Wallet is inactive', 403));
     const [data] = await db('wallets')
