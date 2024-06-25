@@ -84,17 +84,17 @@ Before you begin, ensure you have met the following requirements:
 
 2. Open Browser or Postman
 
-- Open your browser to [http://localhost:3000](http://localhost:3000)
+- Open your browser to [http://127.0.0.1:3000](http://127.0.0.1:3000)
 - Invoke the `/` endpoint
 
 ```shell
-curl http://localhost:3000/
+curl http://127.0.0.1:3000/
 ```
 
 - The `/api-docs` endpoint is for the swagger UI
 
 ```shell
-curl http://localhost:3000/api-docs
+curl http://127.0.0.1:3000/api-docs
 ```
 
 - Check the routes files to get the other resource
