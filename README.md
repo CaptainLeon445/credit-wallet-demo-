@@ -14,8 +14,8 @@ A comprehensive documentation for building server-side application for credit wa
 - [Getting Started](#getting-started)
   - [Installation](#installation)
   - [Running the Development Server](#running-the-development-server)
-  - [Testing](#testing)
-  - [Linting](#linting)
+- [Testing](#testing)
+- [Linting](#linting)
 - [Documentation](#documentation)
 - [Important Notification](#important-notification)
 - [Conclusion](#conclusion)
@@ -100,9 +100,9 @@ curl http://127.0.0.1:3000/api-docs
 - Check the routes files to get the other resource
 
 
-### Testing
+## Testing
 
-3. Testing is done using Jest. Run the tests using:
+Testing is done using Jest. Run the tests using:
 
    ```bash
    make test
@@ -110,9 +110,9 @@ curl http://127.0.0.1:3000/api-docs
    ```
 
 
-### Linting
+## Linting
 
-4. Linting is done using ESLint. Check for linting issues using:
+Linting is done using ESLint. Check for linting issues using:
 
    ```bash
    make lint
