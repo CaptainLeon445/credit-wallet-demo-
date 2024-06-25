@@ -41,9 +41,9 @@ Before you begin, ensure you have met the following requirements:
 
 - Node.js and npm installed on your machine.
 - Basic knowledge of TypeScript and Express.js.
-<div>
-<img src="https://asset.cloudinary.com/dwtnlfrc5/cc30bf799f19a2ac8c48a06d41cc997b" width="100"/> 
-</div>
+
+![Alt text](https://asset.cloudinary.com/dwtnlfrc5/cc30bf799f19a2ac8c48a06d41cc997b) 
+
 
 ## Getting Started
 
