@@ -94,8 +94,8 @@ describe('Transfer funds through wallets test cases', () => {
             .post('/v1/api/wallet/fund')
             .set('Authorization', `Bearer ${token}`)
             .send({
-            id,
             amount: 100,
+            description: 'Testing the withdraw test case',
         });
         const res = await (0, supertest_1.default)(server)
             .post('/v1/api/wallet/transfer')
@@ -103,6 +103,7 @@ describe('Transfer funds through wallets test cases', () => {
             .send({
             receiverWalletId: receiverId,
             amount: 50,
+            description: 'Testing the withdraw test case',
         });
         expect(res.statusCode).toEqual(201);
         expect(res.body).toHaveProperty('status', 'success');
@@ -114,6 +115,7 @@ describe('Transfer funds through wallets test cases', () => {
             .send({
             receiverWalletId: receiverId,
             amount: 50,
+            description: 'Testing the withdraw test case',
         });
         expect(res.statusCode).toEqual(403);
         expect(res.body).toHaveProperty('status', 'fail');
@@ -125,6 +127,7 @@ describe('Transfer funds through wallets test cases', () => {
             .send({
             receiverWalletId: 88,
             amount: 50,
+            description: 'Testing the withdraw test case',
         });
         expect(res.statusCode).toEqual(404);
         expect(res.body).toHaveProperty('status', 'fail');
@@ -136,6 +139,7 @@ describe('Transfer funds through wallets test cases', () => {
             .send({
             receiverWalletId: deactivatedId,
             amount: 50,
+            description: 'Testing the withdraw test case',
         });
         expect(res.statusCode).toEqual(403);
         expect(res.body).toHaveProperty('status', 'fail');
@@ -147,6 +151,7 @@ describe('Transfer funds through wallets test cases', () => {
             .send({
             receiverWalletId: receiverId,
             amount: 50,
+            description: 'Testing the withdraw test case',
         });
         expect(res.statusCode).toEqual(403);
         expect(res.body).toHaveProperty('status', 'fail');

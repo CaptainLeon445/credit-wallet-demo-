@@ -73,12 +73,14 @@ describe('Withdraw funds from wallet test cases', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         amount: 500,
+        description: 'Testing the withdraw test case',
       });
     const res = await request(server)
       .post('/v1/api/wallet/withdraw')
       .set('Authorization', `Bearer ${token}`)
       .send({
         amount: 200,
+        description: 'Testing the withdraw test case',
       });
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('status', 'success');
@@ -90,12 +92,14 @@ describe('Withdraw funds from wallet test cases', () => {
       .set('Authorization', `Bearer ${token1}`)
       .send({
         amount: 500,
+        description: 'Testing the withdraw test case',
       });
     const res = await request(server)
       .post('/v1/api/wallet/withdraw')
       .set('Authorization', `Bearer ${token1}`)
       .send({
         amount: 100,
+        description: 'Testing the withdraw test case',
       });
     expect(res.statusCode).toEqual(403);
     expect(res.body).toHaveProperty('status', 'fail');
@@ -107,12 +111,14 @@ describe('Withdraw funds from wallet test cases', () => {
       .set('Authorization', `Bearer ${token2}`)
       .send({
         amount: 500,
+        description: 'Testing the withdraw test case',
       });
     const res = await request(server)
       .post('/v1/api/wallet/withdraw')
       .set('Authorization', `Bearer ${token2}`)
       .send({
         amount: 100,
+        description: 'Testing the withdraw test case'
       });
     expect(res.statusCode).toEqual(403);
     expect(res.body).toHaveProperty('status', 'fail');

@@ -106,12 +106,12 @@ class WalletService {
     async withdrawFunds(walletDTO, next) {
         const { userWalletId, amount } = walletDTO;
         const wallet = await wallet_utils_1.default.getWalletById(userWalletId);
-        if (wallet.balance < amount)
-            return next(new AppError_1.AppError('Insufficient balance', 400));
         if (!wallet)
             return next(new AppError_1.AppError('Wallet not found', 404));
         if (!wallet.active)
             return next(new AppError_1.AppError('Wallet is inactive', 403));
+        if (wallet.balance < amount)
+            return next(new AppError_1.AppError('Insufficient balance', 400));
         const [data] = await (0, db_connection_1.default)('wallets')
             .where({ id: userWalletId })
             .decrement('balance', amount)
