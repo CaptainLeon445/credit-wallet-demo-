@@ -44,7 +44,9 @@ Before you begin, ensure you have met the following requirements:
 
 - Node.js and npm installed on your machine.
 - Basic knowledge of TypeScript and Express.js.
-
+<div>
+<img src="https://media.giphy.com/media/M9gbBd9nbDrOTu1Mqx/giphy.gif" width="100"/> 
+</div>
 ## Getting Started
 
 ### Installation
