@@ -42,7 +42,7 @@ Before you begin, ensure you have met the following requirements:
 - Node.js and npm installed on your machine.
 - Basic knowledge of TypeScript and Express.js.
 <div>
-<img src="https://dbdesigner.page.link/iKmJD3AGcEShX3aw6" width="100"/> 
+<img src="https://dbdesigner.page.link/iKmJD3AGcEShX3aw6" width="500"/> 
 </div>
 
 ## Getting Started
