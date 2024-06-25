@@ -42,8 +42,7 @@ Before you begin, ensure you have met the following requirements:
 - Node.js and npm installed on your machine.
 - Basic knowledge of TypeScript and Express.js.
 
-![Alt text](https://res.cloudinary.com/dwtnlfrc5/image/upload/v1719321540/credit-wallet-system_sdsbtn.png) 
-
+![Alt text](https://res.cloudinary.com/dwtnlfrc5/image/upload/v1719322035/credit-wallet-system_1_hxgw5q.png)
 
 ## Getting Started
 
