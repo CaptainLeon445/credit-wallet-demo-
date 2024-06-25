@@ -121,7 +121,8 @@ curl http://127.0.0.1:3000/api-docs
 
 ### Documentation
 
-- The API documentation is available on [credit-wallet-API-endpoints] (https://christopher-ifeoluwa-oni-lendsqr-be-test.onrender.com/api-docs)
+  * The API documentation is available on [credit-wallet-API-endpoints](https://christopher-ifeoluwa-oni-lendsqr-be-test.onrender.com/api-docs/)
+
 
 ### Important Notification
 
