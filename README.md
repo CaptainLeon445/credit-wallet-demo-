@@ -102,7 +102,7 @@ curl http://127.0.0.1:3000/api-docs
 
 ### Testing
 
-- Testing is done using Jest. Run the tests using:
+3. Testing is done using Jest. Run the tests using:
 
    ```bash
    make test
@@ -112,24 +112,24 @@ curl http://127.0.0.1:3000/api-docs
 
 ### Linting
 
-- Linting is done using ESLint. Check for linting issues using:
+4. Linting is done using ESLint. Check for linting issues using:
 
    ```bash
    make lint
 
    ```
 
-### Documentation
+## Documentation
 
   * The API documentation is available on [credit-wallet-API-endpoints](https://christopher-ifeoluwa-oni-lendsqr-be-test.onrender.com/api-docs/)
 
 
-### Important Notification
+## Important Notification
 
 - Lendsqr Adjutor Karma blacklist is not found in the Lendsqr documentation
 - Render hosting platform does not provide free MySql database. PostgreSQL database is used.
 - Docker is used to build images for deployment on render hosting platform.
 
-### Conclusion
+## Conclusion
 This document summarizes the implementation of the Demo Credit wallet service. The use of Docker, Makefile, PostgreSQL, Knex, TypeScript, Jest, ESLint, JWT, and bcrypt ensures a robust, scalable, and maintainable codebase. The design decisions and technology choices were influenced by the constraints of the hosting platform and the need for type safety, code quality, and developer productivity.
 
