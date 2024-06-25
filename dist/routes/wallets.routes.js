@@ -68,7 +68,7 @@ walletsRoutes.use(authMiddleware.authRestrictTo(['superadmin']));
  * /v1/api/wallets:
  *   get:
  *     summary: Get all the available users wallets
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     responses:
  *       200:
  *         description: Wallets returned successfully.
@@ -96,7 +96,7 @@ walletsRoutes.get('/', walletController.getWallets.bind(walletController));
  *           type: number
  *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     responses:
  *       200:
  *         description: Wallet details returned successfully.
@@ -128,7 +128,7 @@ walletsRoutes.get('/:id', walletController.getWallet.bind(walletController));
  *           type: number
  *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     responses:
  *       201:
  *         description: Wallet deactivated successfully.
@@ -160,7 +160,7 @@ walletsRoutes.patch('/:id/deactivate', walletController.deactivateWallet.bind(wa
  *           type: number
  *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     responses:
  *       201:
  *         description: Wallet activated successfully.
@@ -192,7 +192,7 @@ walletsRoutes.patch('/:id/activate', walletController.activateWallet.bind(wallet
  *           type: number
  *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     requestBody:
  *       required: true
  *       content:
@@ -232,7 +232,7 @@ walletsRoutes.post('/:id/fund', wallet_validators_1.validateFundDeposit, walletC
  *           type: number
  *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     requestBody:
  *       required: true
  *       content:
@@ -276,7 +276,7 @@ walletsRoutes.post('/:id/transfer', wallet_validators_1.validateTransferFund, wa
  *           type: number
  *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     requestBody:
  *       required: true
  *       content:

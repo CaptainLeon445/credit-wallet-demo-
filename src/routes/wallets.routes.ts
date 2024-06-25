@@ -76,7 +76,7 @@ walletsRoutes.use(authMiddleware.authRestrictTo(['superadmin']));
  * /v1/api/wallets:
  *   get:
  *     summary: Get all the available users wallets
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     responses:
  *       200:
  *         description: Wallets returned successfully.
@@ -105,7 +105,7 @@ walletsRoutes.get('/', walletController.getWallets.bind(walletController));
  *           type: number
  *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     responses:
  *       200:
  *         description: Wallet details returned successfully.
@@ -138,7 +138,7 @@ walletsRoutes.get('/:id', walletController.getWallet.bind(walletController));
  *           type: number
  *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     responses:
  *       201:
  *         description: Wallet deactivated successfully.
@@ -174,7 +174,7 @@ walletsRoutes.patch(
  *           type: number
  *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     responses:
  *       201:
  *         description: Wallet activated successfully.
@@ -210,7 +210,7 @@ walletsRoutes.patch(
  *           type: number
  *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     requestBody:
  *       required: true
  *       content:
@@ -255,7 +255,7 @@ walletsRoutes.post(
  *           type: number
  *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     requestBody:
  *       required: true
  *       content:
@@ -304,7 +304,7 @@ walletsRoutes.post(
  *           type: number
  *         description: Users wallets id. e.g 1,2,3,4
  *         required: true
- *     tags: [Users wallet]
+ *     tags: [Users wallets]
  *     requestBody:
  *       required: true
  *       content:
