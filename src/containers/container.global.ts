@@ -1,8 +1,10 @@
 import AuthController from '../controllers/auth/auth.controller';
+import TransactionController from '../controllers/transaction/transaction.controller';
 import UserController from '../controllers/user/user.controller';
 import WalletController from '../controllers/wallet/wallet.controller';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 import AuthService from '../services/auth/auth.service';
+import { TransactionService } from '../services/transaction/transaction.services';
 import { UserService } from '../services/user/user.service';
 import { WalletService } from '../services/wallet/wallet.service';
 
@@ -25,6 +27,7 @@ container.register('AuthMiddleware', new AuthMiddleware());
 // Register Services
 
 container.register('UserService', new UserService());
+container.register('TransactionService', new TransactionService());
 container.register('WalletService', new WalletService());
 container.register(
   'AuthService',
@@ -42,7 +45,16 @@ container.register(
 );
 container.register(
   'WalletController',
-  new WalletController(container.resolve<WalletService>('WalletService'))
+  new WalletController(
+    container.resolve<WalletService>('WalletService'),
+    container.resolve<TransactionService>('TransactionService')
+  )
+);
+container.register(
+  'TransactionController',
+  new TransactionController(
+    container.resolve<TransactionService>('TransactionService')
+  )
 );
 
 export default container;

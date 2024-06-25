@@ -3,7 +3,8 @@ import container from '../containers/container.global';
 import WalletController from '../controllers/wallet/wallet.controller';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 import {
-  validateFund,
+  validateFundDeposit,
+  validateFundWithdraw,
   validateTransferFund,
 } from '../middlewares/validators/wallet.validators';
 
@@ -31,8 +32,12 @@ const walletsRoutes = express.Router();
  *         amount:
  *           type: number
  *           description: The fund amount
+ *         description:
+ *           type: string
+ *           description: The fund description
  *       example:
  *         amount: 2000
+ *         description: The fund description
  */
 
 /**
@@ -51,14 +56,17 @@ const walletsRoutes = express.Router();
  *         amount:
  *           type: number
  *           description: The fund amount
+ *         description:
+ *           type: string
+ *           description: The fund description
  *       example:
  *         receiverWalletId: 3
  *         amount: 2000
+ *         description: The fund description
  */
 
 walletsRoutes.use(authMiddleware.authProtect);
-walletsRoutes.use(authMiddleware.authRestrictTo(["superadmin"]));
-
+walletsRoutes.use(authMiddleware.authRestrictTo(['superadmin']));
 
 /**
  * @swagger
@@ -80,10 +88,7 @@ walletsRoutes.use(authMiddleware.authRestrictTo(["superadmin"]));
  *         description: Some internal server error
  *
  */
-walletsRoutes.get(
-  '/',
-  walletController.getWallets.bind(walletController)
-);
+walletsRoutes.get('/', walletController.getWallets.bind(walletController));
 
 /**
  * @swagger
@@ -231,7 +236,7 @@ walletsRoutes.patch(
  */
 walletsRoutes.post(
   '/:id/fund',
-  validateFund,
+  validateFundDeposit,
   walletController.fundWallet.bind(walletController)
 );
 
@@ -325,7 +330,7 @@ walletsRoutes.post(
  */
 walletsRoutes.post(
   '/:id/withdraw',
-  validateFund,
+  validateFundWithdraw,
   walletController.withdrawFunds.bind(walletController)
 );
 

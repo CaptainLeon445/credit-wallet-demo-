@@ -27,8 +27,12 @@ const walletRoutes = express_1.default.Router();
  *         amount:
  *           type: number
  *           description: The fund amount
+ *         description:
+ *           type: string
+ *           description: The fund description
  *       example:
  *         amount: 2000
+ *         description: The fund description
  */
 /**
  * @swagger
@@ -46,9 +50,13 @@ const walletRoutes = express_1.default.Router();
  *         amount:
  *           type: number
  *           description: The fund amount
+ *         description:
+ *           type: string
+ *           description: The fund description
  *       example:
  *         receiverWalletId: 3
  *         amount: 2000
+ *         description: The fund description
  */
 walletRoutes.use(authMiddleware.authProtect);
 /**
@@ -179,7 +187,7 @@ walletRoutes.patch('/activate', walletController.activateWallet.bind(walletContr
  *         description: Some internal server error
  *
  */
-walletRoutes.post('/fund', wallet_validators_1.validateFund, walletController.fundWallet.bind(walletController));
+walletRoutes.post('/fund', wallet_validators_1.validateFundDeposit, walletController.fundWallet.bind(walletController));
 /**
  * @swagger
  * tags:
@@ -249,5 +257,5 @@ walletRoutes.post('/transfer', wallet_validators_1.validateTransferFund, walletC
  *         description: Some internal server error
  *
  */
-walletRoutes.post('/withdraw', wallet_validators_1.validateFund, walletController.withdrawFunds.bind(walletController));
+walletRoutes.post('/withdraw', wallet_validators_1.validateFundWithdraw, walletController.withdrawFunds.bind(walletController));
 exports.default = walletRoutes;

@@ -8,8 +8,9 @@ const catchAsyncError_1 = require("../../utils/catchAsyncError");
 const wallet_utils_1 = __importDefault(require("../../utils/wallet/wallet.utils"));
 const AppError_1 = require("../../middlewares/ErrorHandlers/AppError");
 class WalletController {
-    constructor(walletService) {
+    constructor(walletService, transactionService) {
         this.walletService = walletService;
+        this.transactionService = transactionService;
         this.getWallets = (0, catchAsyncError_1.catchAsync)(async (req, res) => {
             const data = await this.walletService.getWallets();
             if (data)
@@ -32,54 +33,80 @@ class WalletController {
         });
         this.fundWallet = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
-            let id;
-            if (user.role === 'superadmin')
-                id = Number(req.params.id);
+            let uid;
+            let walletId;
+            if (user.role === 'superadmin') {
+                walletId = Number(req.params.id);
+                const wallet = await wallet_utils_1.default.getWalletById(walletId);
+                uid = wallet.uid;
+            }
             else {
                 if (!user.active)
                     return next(new AppError_1.AppError('User account inactive', 403));
                 const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
-                id = wallet.id;
+                uid = user.id;
+                walletId = wallet.id;
             }
-            req.body.userWalletId = id;
-            const requestData = req.body;
+            const trxDTA = { ...req.body, uid, walletId };
+            const requestData = {
+                amount: req.body.amount,
+                userWalletId: walletId,
+            };
             const data = await this.walletService.fundWallet(requestData, next);
-            if (data)
+            const dataTrx = await this.transactionService.createTransaction(trxDTA, next);
+            if (data && dataTrx) {
                 await global_utils_1.GlobalUtilities.response(res, 'Wallet funded successfully!', 201, data);
+            }
         });
         this.transferFunds = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
-            let id;
-            if (user.role === 'superadmin')
-                id = Number(req.params.id);
+            let uid;
+            let walletId;
+            if (user.role === 'superadmin') {
+                walletId = Number(req.params.id);
+                const wallet = await wallet_utils_1.default.getWalletById(walletId);
+                uid = wallet.uid;
+            }
             else {
                 if (!user.active)
                     return next(new AppError_1.AppError('User account inactive', 403));
                 const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
-                id = wallet.id;
+                uid = user.id;
+                walletId = wallet.id;
             }
-            req.body.senderWalletId = id;
+            req.body.senderWalletId = walletId;
             const requestData = req.body;
             const data = await this.walletService.transferFunds(requestData, next);
-            if (data)
-                await global_utils_1.GlobalUtilities.response(res, 'Transfer successful!', 201, data);
+            if (data) {
+                await this.transactionService.createTransaction(data.senderTrxDTA, next);
+                await this.transactionService.createTransaction(data.receiverTrxDTA, next);
+                await global_utils_1.GlobalUtilities.response(res, 'Transfer successful!', 201, data.result);
+            }
         });
         this.withdrawFunds = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;
-            let id;
-            if (user.role === 'superadmin')
-                id = Number(req.params.id);
+            let uid;
+            let walletId;
+            if (user.role === 'superadmin') {
+                walletId = Number(req.params.id);
+                const wallet = await wallet_utils_1.default.getWalletById(walletId);
+                uid = wallet.uid;
+            }
             else {
                 if (!user.active)
                     return next(new AppError_1.AppError('User account inactive', 403));
                 const wallet = await wallet_utils_1.default.getWalletByUId(user.id);
-                id = wallet.id;
+                uid = user.id;
+                walletId = wallet.id;
             }
-            req.body.userWalletId = id;
+            const trxDTA = { ...req.body, uid, walletId };
+            req.body.userWalletId = walletId;
             const requestData = req.body;
             const data = await this.walletService.withdrawFunds(requestData, next);
-            if (data)
+            if (data) {
+                await this.transactionService.createTransaction(trxDTA, next);
                 await global_utils_1.GlobalUtilities.response(res, 'Withdrawal successful!', 201, data);
+            }
         });
         this.deactivateWallet = (0, catchAsyncError_1.catchAsync)(async (req, res, next) => {
             const user = req.user;

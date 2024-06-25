@@ -3,6 +3,14 @@ export interface FundDTO {
   amount: number;
 }
 
+export interface FundWalletDTO {
+  uid: number;
+  amount: number;
+  type: string;
+  description: string;
+
+}
+
 export interface TransferFundDTO {
   senderWalletId: number;
   receiverWalletId: number;

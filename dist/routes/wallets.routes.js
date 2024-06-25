@@ -27,8 +27,12 @@ const walletsRoutes = express_1.default.Router();
  *         amount:
  *           type: number
  *           description: The fund amount
+ *         description:
+ *           type: string
+ *           description: The fund description
  *       example:
  *         amount: 2000
+ *         description: The fund description
  */
 /**
  * @swagger
@@ -46,12 +50,16 @@ const walletsRoutes = express_1.default.Router();
  *         amount:
  *           type: number
  *           description: The fund amount
+ *         description:
+ *           type: string
+ *           description: The fund description
  *       example:
  *         receiverWalletId: 3
  *         amount: 2000
+ *         description: The fund description
  */
 walletsRoutes.use(authMiddleware.authProtect);
-walletsRoutes.use(authMiddleware.authRestrictTo(["superadmin"]));
+walletsRoutes.use(authMiddleware.authRestrictTo(['superadmin']));
 /**
  * @swagger
  * tags:
@@ -208,7 +216,7 @@ walletsRoutes.patch('/:id/activate', walletController.activateWallet.bind(wallet
  *         description: Some internal server error
  *
  */
-walletsRoutes.post('/:id/fund', wallet_validators_1.validateFund, walletController.fundWallet.bind(walletController));
+walletsRoutes.post('/:id/fund', wallet_validators_1.validateFundDeposit, walletController.fundWallet.bind(walletController));
 /**
  * @swagger
  * tags:
@@ -292,5 +300,5 @@ walletsRoutes.post('/:id/transfer', wallet_validators_1.validateTransferFund, wa
  *         description: Some internal server error
  *
  */
-walletsRoutes.post('/:id/withdraw', wallet_validators_1.validateFund, walletController.withdrawFunds.bind(walletController));
+walletsRoutes.post('/:id/withdraw', wallet_validators_1.validateFundWithdraw, walletController.withdrawFunds.bind(walletController));
 exports.default = walletsRoutes;

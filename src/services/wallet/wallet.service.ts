@@ -68,7 +68,7 @@ export class WalletService {
         return next(new AppError("Sender's wallet is not found", 404));
       if (!sender.active)
         return next(new AppError("Sender's wallet is inactive", 403));
-      const [userWallet] = await trx('wallets')
+      const [result] = await trx('wallets')
         .where({ id: senderWalletId })
         .decrement('balance', amount)
         .returning('*');
@@ -77,7 +77,20 @@ export class WalletService {
         .increment('balance', amount)
         .returning('*');
       await trx.commit();
-      return userWallet;
+
+      const receiverTrxDTA = {
+        ...walletDTO,
+        type: 'credit',
+        uid: receiver.uid,
+        walletId: receiverWalletId,
+      };
+      const senderTrxDTA = {
+        ...walletDTO,
+        type: 'debit',
+        uid: sender.uid,
+        walletId: senderWalletId,
+      };
+      return { result, receiverTrxDTA, senderTrxDTA };
     } catch (error: any) {
       return next(new AppError(error.message, error.status));
     }

@@ -8,6 +8,7 @@ A comprehensive documentation for building server-side application for credit wa
 
 - [Introduction](#introduction)
 - [Features](#features)
+- [Technologies](#technologies)
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
   - [Installation](#installation)
@@ -19,17 +20,23 @@ A comprehensive documentation for building server-side application for credit wa
 
 ## Introduction
 
-
-This documentation provides the guidelines in cloning the repository and running the codes on your local machine. 
+This project implements a basic wallet service for a mobile lending app using NodeJS, TypeScript, and PostgreSQL.
+This documentation provides the guidelines in cloning the repository and running the codes on your local machine.
 
 ## Features
 
-- Express.js for handling HTTP requests.
-- TypeScript for type safety and enhanced developer experience.
-- Customizable project structure with clear separation of concerns.
-- Configurable environment variables using `.env.example` file.
-- Pre-configured logging and error handling middleware.
-- Includes common dependencies such as `dotenv`, `Joi`, `Typescript`, `pg`, `knex` for database interactions, and others.
+- Create an account
+- Fund account
+- Transfer funds to another user’s account
+- Withdraw funds from account
+- Prevent users in the Lendsqr Adjutor Karma blacklist from onboarding
+
+## Technologies
+
+- NodeJS (LTS version)
+- TypeScript
+- KnexJS ORM
+- PostgresSQL database
 
 ## Prerequisites
 

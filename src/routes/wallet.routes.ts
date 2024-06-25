@@ -3,7 +3,8 @@ import container from '../containers/container.global';
 import WalletController from '../controllers/wallet/wallet.controller';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 import {
-  validateFund,
+  validateFundDeposit,
+  validateFundWithdraw,
   validateTransferFund,
 } from '../middlewares/validators/wallet.validators';
 
@@ -31,8 +32,12 @@ const walletRoutes = express.Router();
  *         amount:
  *           type: number
  *           description: The fund amount
+ *         description:
+ *           type: string
+ *           description: The fund description
  *       example:
  *         amount: 2000
+ *         description: The fund description
  */
 
 /**
@@ -51,9 +56,13 @@ const walletRoutes = express.Router();
  *         amount:
  *           type: number
  *           description: The fund amount
+ *         description:
+ *           type: string
+ *           description: The fund description
  *       example:
  *         receiverWalletId: 3
  *         amount: 2000
+ *         description: The fund description
  */
 
 walletRoutes.use(authMiddleware.authProtect);
@@ -201,7 +210,7 @@ walletRoutes.patch(
  */
 walletRoutes.post(
   '/fund',
-  validateFund,
+  validateFundDeposit,
   walletController.fundWallet.bind(walletController)
 );
 
@@ -281,7 +290,7 @@ walletRoutes.post(
  */
 walletRoutes.post(
   '/withdraw',
-  validateFund,
+  validateFundWithdraw,
   walletController.withdrawFunds.bind(walletController)
 );
 

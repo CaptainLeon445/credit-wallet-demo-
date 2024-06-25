@@ -1,4 +1,5 @@
 import knex from 'knex';
+import { transactionTable } from '../models/transaction.model';
 
 const db = knex({
   client: 'pg',
@@ -30,3 +31,10 @@ export const truncateAllTables = async () => {
     await db.destroy();
   } 
 };
+
+
+export const createTables = async () => {
+  await db.schema.dropTableIfExists('transactions'); // Drop existing table
+  await transactionTable();
+};
+
